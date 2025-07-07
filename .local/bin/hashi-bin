@@ -1,0 +1,68 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+command -v hc-install >/dev/null || {
+  echo 'requires `hc-install`; not found'
+  exit 1
+}
+
+help() {
+  cat <<EOF
+usage: hashi-bin {download,install,use,unlink,rm} {program} {version}
+EOF
+  exit 1
+}
+[ $# -lt 2 ] && help
+
+list() {
+  local program="$1"
+  curl -sS "https://api.releases.hashicorp.com/v1/releases/$program" \
+  | jq -r '.[].version'
+}
+
+op="$1"
+program="$2"
+ver="${3:-0}"
+if [ "$ver" == 'latest' ]; then
+  ver="$(list "$program" | grep -Ev 'alpha|beta|rc|ent' | head -n1)"
+  echo $ver
+fi
+INSTALL_DIR=${HC_INSTALL_DIR:-$HOME/.local/bin}
+LINK="$INSTALL_DIR/$program"
+mkdir -p "$INSTALL_DIR/hashi"
+DEST="$INSTALL_DIR/hashi/$program-$ver"
+
+install() {
+  tmp="$(mktemp --directory)"
+  trap "rm -rfv $tmp" EXIT
+  hc-install install -version "$ver" -path "$tmp" "$program"
+  mv "$tmp/$program" "$DEST"
+}
+
+set -x
+case "$op" in
+'list')
+  list "$program"
+  ;;
+'download')
+  test -f "$program" && exit
+  hc-install install -version "$ver" "$program"
+;;
+'install')
+  test -f "$DEST" && exit
+  install
+;;
+'use')
+  test -f "$DEST" || install
+  ln -sf "$DEST" "$LINK"
+;;
+'unlink')
+  unlink "$LINK" || true
+;;
+'rm')
+  unlink "$LINK" || true
+  rm "$DEST"
+;;
+*) help ;;
+esac

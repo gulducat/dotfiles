@@ -1,0 +1,43 @@
+[alias]
+	a = add --patch
+	s = status
+	co = checkout
+	dc = diff --cached
+	#push f = push --force-with-lease
+        # Show the current branch name (useful for shell prompts) 
+	#brname = !git branch | grep "^*" | awk '{ print $2 }' 
+	brname = branch --show-current
+	br = branch --show-current
+	#lg = !git log -n10 --pretty='%cs %h %m %s' | sed -r 's_\(#\d+\)$_https://github.com/hashicorp/nomad/pull/\1_g'
+[core]
+	editor = "nvim"
+	# doesn't work in tmux... https://github.com/dandavison/delta/issues/447#issuecomment-2002011943
+	#pager = delta --detect-dark-light=always
+	# so use my silly little shim workaround
+	pager = ~/.local/bin/delta
+	excludesFile = /home/dbennett/.gitignore
+[delta]
+	navigate = true # use n and N to move between diff sections
+	#side-by-side = true
+	#light = true
+	line-numbers = true
+[init]
+	defaultBranch = main
+[interactive]
+	diffFilter = delta --color-only
+[status]
+	#short = true
+[user]
+	email = dbennett@hashicorp.com
+	name = Daniel Bennett
+[url "git@github.com:"]
+	insteadOf = https://github.com/
+[format]
+	#pretty = format:%C(auto)%h %d%Creset %s%n%Cgreen%ad%Creset %aN <%aE>%n
+	pretty =  format:%C(auto)%cs %h %m %Cgreen%s
+#[credential "https://github.com"]
+#	helper = 
+#	helper = !/home/dbennett/go/bin/gh auth git-credential
+#[credential "https://gist.github.com"]
+#	helper = 
+#	helper = !/home/dbennett/go/bin/gh auth git-credential

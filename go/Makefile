@@ -1,5 +1,5 @@
 # https://go.dev/dl/
-GO_VERSION ?= 1.24.2
+GO_VERSION ?= 1.24.4
 
 .PHONY: default
 default: active/go-$(GO_VERSION)

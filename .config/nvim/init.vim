@@ -14,10 +14,12 @@ Plug 'junegunn/fzf.vim'
 " https://github.com/preservim/nerdtree
 Plug 'preservim/nerdtree'
 
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+
 " :Goyo
 " https://vimawesome.com/plugin/goyo-vim
 Plug 'junegunn/goyo.vim'
-let g:goyo_width = 66
+let g:goyo_width = "66%"
 " :Limelight!!
 " https://github.com/junegunn/limelight.vim
 Plug 'junegunn/limelight.vim'
