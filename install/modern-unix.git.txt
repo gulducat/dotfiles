@@ -1,0 +1,13 @@
+https://github.com/ibraheemdev/modern-unix
+
+* bat (dnf)
+* lsd (dnf)
+* delta (dnf: git-delta)
+* dust (rust)
+* duf (go)
+* ripgrep (dnf)
+* fd (rust)
+* fzf (dnf)
+* procs (rust)
+* curlie (go) (httpie clone)
+* zoxide (dnf)

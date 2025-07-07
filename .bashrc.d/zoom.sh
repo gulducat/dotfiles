@@ -55,5 +55,5 @@ _upgrade_zoom_rpm() {
   fi
 
   echo "dnf install install $pkg"
-  sudo dnf install "$pkg"
+  sudo dnf install -y "$pkg"
 }

@@ -40,11 +40,11 @@ Plug 'vim-pandoc/vim-pandoc-syntax'
 
 Plug 'joshdick/onedark.vim'
 Plug 'NLKNguyen/papercolor-theme'
-Plug 'folke/tokyonight.nvim'
+"Plug 'folke/tokyonight.nvim'
 Plug 'f-person/auto-dark-mode.nvim'
 
 "Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-Plug 'ziglang/zig.vim'
+"Plug 'ziglang/zig.vim'
 
 call plug#end()
 

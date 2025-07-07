@@ -2,15 +2,15 @@
 GO_VERSION ?= 1.24.2
 
 .PHONY: default
-default: use/go-$(GO_VERSION)
+default: active/go-$(GO_VERSION)
 	@echo export GOPATH="$(PWD)"
-	@echo export PATH="$${GOPATH}/bin:$${GOPATH}/go/bin:$${PATH}"
+	@echo export PATH='$${GOPATH}/bin:$${GOPATH}/go/bin:$${PATH}'
 
-use/go-%: dl/go-%
-	mkdir -p use
+active/go-%: dl/go-%
+	mkdir -p active
 	unlink go || true
-	rm -f use/go-* \
-	  && touch use/go-$* \
+	rm -f active/go-* \
+	  && touch active/go-$* \
 	  && ln -s ./dl/go-$* ./go
 
 dl/go-%: dl/go-%.tar.gz
