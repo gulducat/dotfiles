@@ -1,3 +1,5 @@
+nnoremap <leader>r :source "~/.config/nvim/init.vim" <CR> :echo "config reloaded!"<CR>
+
 set mouse=a
 
 set termguicolors
@@ -5,8 +7,18 @@ set termguicolors
 " 'short message'
 set shortmess=aW
 
+set number
+" also relative line numbers
+set relativenumber
+
+" line width indicators
+set colorcolumn=81,101
+
 " https://github.com/junegunn/vim-plug
 call plug#begin()
+
+"Plug 'tpope/vim-fugitive'
+Plug 'lewis6991/gitsigns.nvim'
 
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
@@ -51,14 +63,21 @@ Plug 'f-person/auto-dark-mode.nvim'
 call plug#end()
 
 " NERDTree
-nnoremap <leader>n :NERDTreeFocus<CR>
+nnoremap <leader>n :NERDTreeToggle<CR>
 nnoremap <C-n> :NERDTree<CR>
-nnoremap <C-t> :NERDTreeToggle<CR>
+"nnoremap <C-t> :NERDTreeToggle<CR>
 nnoremap <C-f> :NERDTreeFind<CR>
 
+" golang
+nnoremap <C-]> :GoDef<CR>
+nnoremap <C-[> :GoDefPop<CR>
+
 "colorscheme tokyonight
-"colorscheme PaperColor
+
+colorscheme PaperColor
+"set background=light
 "colorscheme onedark
+
 "hi Normal ctermbg=NONE guibg=282c34
 "autocmd ColorScheme * highlight Normal ctermbg=NONE guibg=282c34
 
@@ -75,6 +94,34 @@ lua <<EOF
   		vim.cmd('colorscheme PaperColor')
   	end,
   })
+EOF
+
+" theme toggle, courtesy of IBM bob
+" Toggle between two themes
+let g:theme_state = 0
+command! ToggleTheme call s:ToggleTheme()
+function! s:ToggleTheme()
+  if g:theme_state == 1
+    set background=dark
+    colorscheme onedark
+    echo 'Theme: onedark'
+    let g:theme_state = 0
+  else
+    set background=light
+    colorscheme PaperColor
+    echo 'Theme: PaperColor (light)'
+    let g:theme_state = 1
+  endif
+endfunction
+nnoremap <leader>tt :ToggleTheme<CR>
+
+lua << EOF
+require('gitsigns').setup({
+  current_line_blame = true,
+  current_line_blame_opts = {
+    delay = 300,
+  },
+})
 EOF
 
 "autocmd! User GoyoEnter Limelight

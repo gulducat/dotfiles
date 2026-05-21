@@ -6,6 +6,10 @@ alias tf=terraform
 # totally different thing now in ~/.local/bin/hashi-bin
 [[ "$PATH" =~ 'local/bin/hashi' ]] || export PATH="$HOME/.local/bin/hashi:$PATH"
 
+# autocompletes
+complete -C ~/.local/bin/nomad nomad n
+complete -C ~/.local/bin/nomad-pack nomad-pack
+
 # nomad
 #export NOMAD_ADDR=https://localhost:4646
 export NOMAD_LICENSE_PATH=$HOME/licenses/nomad.hclic
@@ -46,11 +50,28 @@ consul-connect() {
 }
 
 agent() {
-  if [ "$1" == 'bootstrap' ]; then
-    _agent start --bootstrap-expect=1 &
-  else
-    _agent start &
-  fi
+  case "$1" in
+    'dev')
+      _agent dev & ;;
+    'clean')
+      if pgrep nomad; then
+        echo "!! wont clean when nomad's running !!"
+        return 1
+      fi
+      if grep 'opt/nomad' /proc/mounts; then
+        echo "!! stuff is mounted; run:"
+        echo "awk '/opt\/nomad/ {print\$2}' /proc/mounts | xargs sudo umount --verbose"
+        return 1
+      fi
+      echo 'deleting /opt/nomad/data'
+      sudo rm -rf /opt/nomad/data
+      echo 'next run `agent bootstrap` and `acl-bootstrap`'
+      return ;;
+    'bootstrap')
+      _agent start --bootstrap-expect=1 & ;;
+    *)
+    _agent start & ;;
+  esac
   local pid="$!"
   _agent logs
   echo "remember to kill $pid"
@@ -58,10 +79,15 @@ agent() {
 
 _agent() {
   > /tmp/nomad.log
+  nomad="${NOMAD:-$(which nomad)}"
   case "$1" in
+    'dev')
+      shift
+      sudo -i $nomad agent -dev $@ > /tmp/nomad.log 2>&1
+      ;;
     'start')
       shift
-      sudo -i $(which nomad) agent -config /opt/nomad/agent.hcl $@ > /tmp/nomad.log 2>&1
+      sudo -i $nomad agent -config /opt/nomad/agent.hcl $@ > /tmp/nomad.log 2>&1
       ;;
     'logs') tail -f /tmp/nomad.log | rainbow ;;
     *) echo 'start or logs?' ;;
@@ -69,16 +95,35 @@ _agent() {
 }
 
 server() {
+  if [ "$1" == 'bootstrap' ]; then
+    _server start --bootstrap-expect=1 &
+  else
+    _server start &
+  fi
+  local pid="$!"
+  _server logs
+  echo "remember to kill $pid"
+}
+
+_server() {
+  > /tmp/nomad.log
+  nomad="${NOMAD:-$(which nomad)}"
   case "$1" in
-    'start') sudo -i $(which nomad) agent -config /opt/nomad/server.hcl > /tmp/nomad.log 2>&1 ;;
+    'start')
+      shift
+      sudo -i $nomad agent -config /opt/nomad/server.hcl $@ > /tmp/nomad.log 2>&1
+      ;;
     'logs') tail -f /tmp/nomad.log | rainbow ;;
     *) echo 'start or logs?' ;;
   esac
 }
 
-client() {
-  case "$1" in
-    'start') nomad run /opt/nomad/clients.nomad.hcl ;;
+clients() {
+  local cmd count
+  cmd="${1}"
+  count="${2:-2}"
+  case "$cmd" in
+    'start') nomad run -var count=$count /opt/nomad/clients.nomad.hcl ;;
     'restart') nomad job restart clients ;;
     'logs') nomad logs -f -job clients | rainbow ;;
     'stop') nomad stop clients ;;
@@ -115,9 +160,3 @@ _virsh_ssh() {
 vercel(){
   echo "https://nomad-git-${1:-$(git branch --show-current)}-hashicorp.vercel.app/nomad"
 }
-
-# jira cli
-# https://github.com/ankitpokhrel/jira-cli
-# token from https://id.atlassian.com/manage-profile/security/api-tokens
-#export JIRA_API_TOKEN='TODO: probably a better way to set this...'
-#source <(jira completion bash)

@@ -7,9 +7,14 @@ sudo dnf install \
   btop \
   fastfetch \
   fzf \
+  gh \
   git-delta \
+  lynx \
   neovim \
+  pandoc \
   podman-docker \
   ripgrep \
+  seahorse \
+  shellcheck \
   zoxide \
   ;

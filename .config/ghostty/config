@@ -1,8 +1,16 @@
 # ctrl+shift+, to reload config
 
+custom-shader-animation = always
+#custom-shader = shaders/gears-and-belts-edit.glsl
+custom-shader = shaders/underwater-edit.glsl
+custom-shader = shaders/cursor-cursor_warp.glsl
+custom-shader = shaders/cursor-ripple_cursor.glsl
+
+#font-family = 
 font-size = 14
 # ghostty +list-themes
 theme = light:zenwritten_light,dark:OneHalfDark
+#theme = light:Zenwritten Light,dark:One Half Dark
 window-theme = ghostty
 gtk-titlebar = false 
 #window-decoration = false 

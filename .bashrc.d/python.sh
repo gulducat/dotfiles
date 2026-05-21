@@ -29,3 +29,4 @@ fi
 eval "$(pyenv init - bash)"
 # copy of the above, but avoid duplicate PATH entries
 
+pyenv virtualenvs | grep -q '^*' || pyenv activate home
