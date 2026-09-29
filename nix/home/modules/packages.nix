@@ -9,6 +9,8 @@ let
   mkLink = repoPath: config.lib.file.mkOutOfStoreSymlink "${flakeDir}/${repoPath}";
 in
 {
+  # https://github.com/nix-community/home-manager/tree/master/modules/programs
+
   # https://github.com/nix-community/nh
   programs.nh = {
     enable = true;
@@ -23,6 +25,16 @@ in
     bashrcExtra = ''
       eval "$(fnm env --shell bash)"
     '';
+  };
+  # https://docs.atuin.sh/latest/configuration/config/
+  programs.atuin = {
+    enable = true;
+    settings = {
+      invert = true;
+      show_tabs = false;
+      tmux.enabled = true;
+    };
+    forceOverwriteSettings = true;
   };
   programs.starship.enable = true;
 
@@ -71,8 +83,6 @@ in
     # --- shell & terminal ---
     ghostty
     tmux
-    starship
-    atuin
 
     # --- modern-unix / everyday CLI tools ---
     bat
