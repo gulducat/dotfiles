@@ -1,0 +1,50 @@
+# ctrl+shift+, to reload config
+
+#custom-shader-animation = always
+## https://github.com/0xhckr/ghostty-shaders
+##custom-shader = shaders/gears-and-belts-edit.glsl
+##custom-shader = shaders/underwater.glsl
+#custom-shader = shaders/underwater-edit.glsl
+##custom-shader = shaders/cursor_warp.glsl
+##custom-shader = shaders/cursor-ripple_cursor.glsl
+
+#font-family = 
+font-size = 14
+# ghostty +list-themes
+#theme = light:zenwritten_light,dark:OneHalfDark
+theme = light:Zenwritten Light,dark:One Half Dark
+window-theme = ghostty
+gtk-titlebar = false 
+#window-decoration = false 
+#title = " "
+title = ghostty
+#fullscreen = true
+#bold-is-bright = true
+window-width = 160
+window-height = 40
+window-padding-x = 15
+window-padding-y = 10,0
+
+# tmux-style panes
+#keybind = ctrl+a>n=new_window
+#keybind = ctrl+a>c=new_tab
+#keybind = ctrl+a>n=next_tab
+#keybind = ctrl+a>p=previous_tab
+#keybind = ctrl+a>shift+'=new_split:down
+#keybind = ctrl+a>-=new_split:down
+#keybind = ctrl+a>shift+5=new_split:right
+#keybind = ctrl+a>shift+\=new_split:right
+## goto left/right/top/bottom are weird compared to tmux
+## https://github.com/ghostty-org/ghostty/issues/524
+## also the config doc doesn't include the valid directions:
+## https://ghostty.org/docs/config/keybind/reference#goto_split
+#keybind = ctrl+a>h=goto_split:left
+#keybind = ctrl+a>j=goto_split:bottom
+#keybind = ctrl+a>k=goto_split:top
+#keybind = ctrl+a>l=goto_split:right
+#keybind = ctrl+a>shift+h=resize_split:left,40
+#keybind = ctrl+a>shift+j=resize_split:down,40
+#keybind = ctrl+a>shift+k=resize_split:up,40
+#keybind = ctrl+a>shift+l=resize_split:right,40
+#keybind = ctrl+a>equal=equalize_splits
+#keybind = ctrl+a>z=toggle_split_zoom
