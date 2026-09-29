@@ -1,12 +1,6 @@
 { username, homeDir, ... }:
 
 {
-  imports = [
-    ./modules/packages.nix
-    ./modules/activation.nix
-    ./modules/onlyoffice.nix
-  ];
-
   home.username = username;
   home.homeDirectory = homeDir;
 

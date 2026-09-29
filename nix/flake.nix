@@ -38,7 +38,12 @@
       # nh home switch
       homeConfigurations.${username} = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
-        modules = [ ./home/home.nix ];
+        modules = [
+          ./home/home.nix
+          ./home/packages.nix
+          ./home/activation.nix
+          ./home/onlyoffice.nix
+        ];
         extraSpecialArgs = { inherit username homeDir flakeDir; };
       };
     };

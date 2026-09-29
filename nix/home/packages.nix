@@ -2,7 +2,7 @@
 
 let
   # Custom derivation for a Go tool not (yet) in nixpkgs.
-  hc-install = pkgs.callPackage ../pkgs/hc-install.nix { };
+  hc-install = pkgs.callPackage ./pkgs/hc-install.nix { };
 
   # Symlinks a path in this repo's files/ dir into place, live-editable
   # without a rebuild (see mkOutOfStoreSymlink).
