@@ -1,25 +1,15 @@
 {
   description = "%%CUR_USER%%'s home-manager config";
 
-  # "inputs" are the other flakes this one depends on. Pinning them here
-  # (and locking them in flake.lock, generated on first build) is what makes
-  # a flake reproducible: everyone who builds this flake gets the exact same
-  # nixpkgs/home-manager revisions until you deliberately run `nix flake update`.
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     home-manager = {
       url = "github:nix-community/home-manager";
-      # "follows" pins home-manager's own nixpkgs input to *our* nixpkgs input
-      # above, instead of whatever nixpkgs revision home-manager itself pins.
-      # Without this you'd end up with two separate copies of nixpkgs.
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs"; # share store
     };
   };
 
-  # "outputs" is a function of the inputs, producing whatever this flake
-  # provides. Here we provide a single `homeConfigurations` entry, which is
-  # what `home-manager switch --flake .#dbennett` looks for.
   outputs = { nixpkgs, home-manager, ... }:
     let
       system = "x86_64-linux";
@@ -28,14 +18,27 @@
         config.allowUnfree = true; # needed for vivaldi, spotify, etc.
       };
 
+      hostname = "%%HOST_NAME%%";
+
       username = "%%CUR_USER%%";
       homeDir = "/home/${username}";
       flakeDir = "%%NH_FLAKE%%";
     in
     {
+      # nh os switch
+      nixosConfigurations.${hostname} = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          ./system/hardware-configuration.nix
+          ./system/configuration.nix
+          ./system/custom.nix
+        ];
+      };
+
+      # nh home switch
       homeConfigurations.${username} = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
-        modules = [ ./home-manager/home.nix ];
+        modules = [ ./home/home.nix ];
         extraSpecialArgs = { inherit username homeDir flakeDir; };
       };
     };

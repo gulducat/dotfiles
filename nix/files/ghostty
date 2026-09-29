@@ -8,11 +8,11 @@
 ##custom-shader = shaders/cursor_warp.glsl
 ##custom-shader = shaders/cursor-ripple_cursor.glsl
 
-#font-family = 
 font-size = 14
+font-family = "JetBrainsMono Nerd Font"
 # ghostty +list-themes
-#theme = light:zenwritten_light,dark:OneHalfDark
-theme = light:Zenwritten Light,dark:One Half Dark
+# "one double dark" matches nvim's "onedarkpro"
+theme = light:Zenwritten Light,dark:One Double Dark
 window-theme = ghostty
 gtk-titlebar = false 
 #window-decoration = false 

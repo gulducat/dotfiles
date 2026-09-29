@@ -1,4 +1,4 @@
-{ config, lib, pkgs, flakeDir, ... }:
+{ config, lib, pkgs, homeDir, flakeDir, ... }:
 
 let
   # Custom derivation for a Go tool not (yet) in nixpkgs.
@@ -9,6 +9,7 @@ let
   mkLink = repoPath: config.lib.file.mkOutOfStoreSymlink "${flakeDir}/${repoPath}";
 in
 {
+  # https://github.com/nix-community/nh
   programs.nh = {
     enable = true;
     clean.enable = true;
@@ -16,15 +17,38 @@ in
     flake = "${flakeDir}"; # sets NH_FLAKE var
   };
 
-   programs.neovim = {
-     enable = true;
-     defaultEditor = true;
-     viAlias = true;
-     vimAlias = true;
-     # do not place init.lua
-     sideloadInitLua = true;
-     plugins = [];
-   };
+  # starship detects bash enabled in this way
+  programs.bash = {
+    enable = true;
+    bashrcExtra = ''
+      eval "$(fnm env --shell bash)"
+    '';
+  };
+  programs.starship.enable = true;
+
+  programs.neovim = {
+    enable = true;
+    defaultEditor = true;
+    viAlias = true;
+    vimAlias = true;
+    # do not place init.lua
+    sideloadInitLua = true;
+    plugins = [
+      # TODO: neovim plugins here, instead of init.vim?
+    ];
+  };
+
+  # https://wiki.nixos.org/wiki/Zed
+  #programs.zed-editor = {
+  #  enable = true;
+  #  extensions = [ "nix" "make" ];
+  #};
+  #programs.nix-ld = {
+  #  enable = true;
+  #  libraries = [ pkgs.zlib pkgs.openssl ];
+  #};
+
+  programs.firefox.enable = true;
 
   # xdg.configFile."nvim/init.vim".source =
   #  config.lib.file.mkOutOfStoreSymlink "${flakeDir}/files/init.vim";
@@ -36,7 +60,14 @@ in
     "starship.toml"  = "files/starship.toml";
   };
 
+  home.sessionPath = [
+    # TODO: figure out fnm, dynamic `node` error, etc
+    #"${homeDir}/.local/share/fnm/aliases/default/bin"
+  ];
+
   home.packages = with pkgs; [
+    # TODO: dropbox
+
     # --- shell & terminal ---
     ghostty
     tmux
@@ -52,9 +83,9 @@ in
     fzf
     gdu
     procs
-    ripgrep
-    television
-    zoxide
+    ripgrep # rg
+    television # tv
+    zoxide # z
 
     # --- git / github / dev workflow ---
     delta # git-delta
@@ -63,8 +94,23 @@ in
     gh-enhance
     diffnav
 
+    # --- IDE ---
+    zed-editor
+    # nix language servers (for zed)
+    nixd
+    nil
+
     # --- editors / docs ---
     pandoc
+    onlyoffice-desktopeditors
+    libreoffice
+    hunspell
+    hunspellDicts.en_US
+    hyphenDicts.en_US
+
+    # --- images ---
+    gimp
+    inkscape
 
     # --- linting / scripting ---
     shellcheck
@@ -72,9 +118,11 @@ in
     #act
 
     # --- languages / toolchains ---
+    # TODO: my special ~/go/ setup...?
     #nodejs
     #pnpm
-    #uv
+    fnm # TODO: need a good way to manage this?
+    uv
 
     # --- misc CLI ---
     curlie
@@ -85,6 +133,11 @@ in
     gnome-tweaks
     gnome-shell-extensions
     seahorse
+
+    # --- social ---
+    discord
+    slack
+    zoom-us
 
     # --- GUI apps (unfree, hence allowUnfree in flake.nix) ---
     vivaldi

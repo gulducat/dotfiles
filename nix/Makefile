@@ -5,6 +5,7 @@ NIX := nix --extra-experimental-features "nix-command flakes"
 
 # robot says this is more robust than $(USER)
 CUR_USER := $(shell id -un)
+HOST_NAME := $(shell uname -n)
 
 # let `nh` run from anywhere
 export NH_FLAKE := $(PWD)
@@ -13,6 +14,7 @@ default: flake.nix switch
 
 flake.nix: flake.nix.tpl
 	sed \
+	  -e 's~%%HOST_NAME%%~$(HOST_NAME)~' \
 	  -e 's~%%CUR_USER%%~$(CUR_USER)~' \
 	  -e 's~%%NH_FLAKE%%~$(NH_FLAKE)~' \
 	  flake.nix.tpl > flake.nix
@@ -41,3 +43,6 @@ gc:
 
 clean:
 	nh clean all
+
+system/hardware-configuration.nix:
+	nixos-generate-config --show-hardware-config > system/hardware-configuration.nix
