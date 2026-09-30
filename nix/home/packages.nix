@@ -83,6 +83,10 @@ in
     #"${homeDir}/.local/share/fnm/aliases/default/bin"
   ];
 
+  home.shellAliases = {
+    ls = "lsd";
+  };
+
   home.packages = with pkgs; [
     # TODO: dropbox
 
@@ -98,6 +102,7 @@ in
     fd
     fzf
     gdu
+    lsd
     procs
     ripgrep # rg
     television # tv
@@ -132,7 +137,7 @@ in
     # TODO: don't need these? could be per-project shell.nix ...
     #nodejs
     #pnpm
-    uv
+    #uv
     #godot
 
     # --- misc CLI ---

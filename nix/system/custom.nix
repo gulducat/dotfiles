@@ -26,35 +26,21 @@
   ];
 
   environment.systemPackages = with pkgs; [
-
     fastfetch
-
-    ghostty
     tmux
 
     git
     gnumake
     tree
-
-    lsd
     gdu
-    btop
-
-    # https://extensions.gnome.org/
-    gnome-shell-extensions
 
     python3
-    uv
 
     # vivaldi must be installed system-wide, along with 1password,
     # for the integration between them to work.
     vivaldi
 
   ];
-
-  environment.shellAliases = {
-    ls = "lsd";
-  };
 
   programs.neovim = {
     enable = true;
