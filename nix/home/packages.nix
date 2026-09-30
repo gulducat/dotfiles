@@ -28,6 +28,8 @@ in
   # starship detects programs.bash
   programs.starship.enable = true;
 
+  programs.zoxide.enable = true;
+
   # https://docs.atuin.sh/latest/configuration/config/
   programs.atuin = {
     enable = true;
@@ -84,7 +86,9 @@ in
   ];
 
   home.shellAliases = {
+    a = "source ~/.bash_profile";
     ls = "lsd";
+    ll = "ls -lh";
   };
 
   home.packages = with pkgs; [
@@ -106,7 +110,6 @@ in
     procs
     ripgrep # rg
     television # tv
-    zoxide # z
 
     # --- git / github / dev workflow ---
     delta # git-delta
