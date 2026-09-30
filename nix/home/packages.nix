@@ -19,24 +19,29 @@ in
     flake = "${flakeDir}"; # sets NH_FLAKE var
   };
 
-  # starship detects bash enabled in this way
   programs.bash = {
     enable = true;
     bashrcExtra = ''
-      eval "$(fnm env --shell bash)"
     '';
   };
+
+  # starship detects programs.bash
+  programs.starship.enable = true;
+
   # https://docs.atuin.sh/latest/configuration/config/
   programs.atuin = {
     enable = true;
+    flags = [
+      "--disable-up-arrow"
+    ];
     settings = {
       invert = true;
       show_tabs = false;
+      enter_accept = true;
       tmux.enabled = true;
     };
     forceOverwriteSettings = true;
   };
-  programs.starship.enable = true;
 
   programs.neovim = {
     enable = true;
@@ -51,10 +56,11 @@ in
   };
 
   # https://wiki.nixos.org/wiki/Zed
-  #programs.zed-editor = {
-  #  enable = true;
-  #  extensions = [ "nix" "make" ];
-  #};
+  programs.zed-editor = {
+   enable = true;
+   extraPackages = with pkgs; [ nixd nil ];
+   extensions = [ "nix" "make" "toml" "gdscript" "svelte" ];
+  };
   #programs.nix-ld = {
   #  enable = true;
   #  libraries = [ pkgs.zlib pkgs.openssl ];
@@ -104,12 +110,6 @@ in
     gh-enhance
     diffnav
 
-    # --- IDE ---
-    zed-editor
-    # nix language servers (for zed)
-    nixd
-    nil
-
     # --- editors / docs ---
     pandoc
     onlyoffice-desktopeditors
@@ -129,10 +129,11 @@ in
 
     # --- languages / toolchains ---
     # TODO: my special ~/go/ setup...?
+    # TODO: don't need these? could be per-project shell.nix ...
     #nodejs
     #pnpm
-    fnm # TODO: need a good way to manage this?
     uv
+    #godot
 
     # --- misc CLI ---
     curlie
