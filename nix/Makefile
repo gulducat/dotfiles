@@ -1,4 +1,10 @@
-# git clone ... && cd nix-config && make
+# git clone https://github.com/gulducat/dotfiles.git ~/dotfiles
+# cd ~/dotfiles/nix
+# rm flake.nix system/hardware-configuration.nix
+# git update-index --assume-unchanged \
+#   flake.nix system/hardware-configuration.nix
+# make
+# nh os switch
 
 # ultimately this in ~/.config/nix/nix.conf, but we're bootstrappin
 NIX := nix --extra-experimental-features "nix-command flakes"

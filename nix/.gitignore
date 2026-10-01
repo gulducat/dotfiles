@@ -1,3 +1,7 @@
+# generated files
+flake.nix
+system/hardware-configuration.nix
+
 # Nix build outputs
 result
 result-*

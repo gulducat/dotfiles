@@ -1,4 +1,6 @@
 {
+  # NOTE: flake.nix is templated from flake.nix.tpl via Makefile
+
   description = "%%CUR_USER%%'s home-manager config";
 
   inputs = {
@@ -28,11 +30,7 @@
       # nh os switch
       nixosConfigurations.${hostname} = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        modules = [
-          ./system/hardware-configuration.nix
-          ./system/configuration.nix
-          ./system/custom.nix
-        ];
+        modules = [ ./system/configuration.nix ];
       };
 
       # nh home switch
