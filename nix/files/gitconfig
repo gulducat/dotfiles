@@ -1,0 +1,32 @@
+[user]
+	name = Daniel Bennett
+	email = 8812489+gulducat@users.noreply.github.com
+
+[alias]
+	s = status --short
+	a = add --patch
+	co = checkout
+	dc = diff --cached
+	br = branch --show-current
+	l = log --graph --format='%C(auto)%cs %h %m %Cgreen%s'
+
+[core]
+	excludesFile = ~/.gitignore
+	#pager = diffnav --unified
+	pager = delta
+
+[interactive]
+	diffFilter = delta --color-only
+
+[delta]
+	# https://dandavison.github.io/delta/configuration.html
+	hyperlinks = true
+	line-numbers = true
+	navigate = true # use 'n' and 'N' to hop around
+
+[merge]
+	style = diff3
+	conflictStyle = zdiff3
+
+[init]
+	defaultBranch = main

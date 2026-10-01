@@ -57,6 +57,29 @@ in
     ];
   };
 
+  programs.lazygit = {
+    enable = true;
+    shellWrapperName = "lg";
+    # https://github.com/jesseduffield/lazygit/blob/master/docs/Config.md
+    settings = {
+      git = {
+        branchLogCmd = "git log --graph --color=always --date=relative --pretty=medium {{branchName}} --";
+        diffRenderers = [{
+          command = "delta --paging=never --detect-dark-light=always --hyperlinks --hyperlinks-file-link-format=\"lazygit-edit://{path}:{line}\"";
+        }];
+      };
+      gui = {
+        theme = {
+          activeBorderColor = [ "green" ];
+          inactiveBorderColor = [ "#777777" ];
+        };
+        nextScreenMode = "+";
+        prevScreenMode = "_";
+        nerdFontsVersion = "3";
+      };
+    };
+  };
+
   # https://wiki.nixos.org/wiki/Zed
   programs.zed-editor = {
    enable = true;
@@ -68,11 +91,21 @@ in
   #  libraries = [ pkgs.zlib pkgs.openssl ];
   #};
 
+  programs.btop = {
+    enable = true;
+    # https://github.com/aristocratos/btop#configurability
+    settings = {
+      color_theme = "TTY";
+      theme_background = false;
+      vim_keys = true;
+    };
+  };
+
   programs.firefox.enable = true;
 
-  # xdg.configFile."nvim/init.vim".source =
-  #  config.lib.file.mkOutOfStoreSymlink "${flakeDir}/files/init.vim";
-  # cleaner below, but more obscure?
+  home.file = lib.mapAttrs (_: repoPath: { source = mkLink repoPath; }) {
+    ".gitconfig" = "files/gitconfig";
+  };
   xdg.configFile = lib.mapAttrs (_: repoPath: { source = mkLink repoPath; }) {
     "nvim/init.vim"  = "files/init.vim";
     "ghostty/config" = "files/ghostty";
@@ -100,7 +133,6 @@ in
 
     # --- modern-unix / everyday CLI tools ---
     bat
-    btop
     duf
     fastfetch
     fd
