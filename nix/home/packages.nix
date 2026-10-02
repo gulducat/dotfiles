@@ -83,8 +83,8 @@ in
   # https://wiki.nixos.org/wiki/Zed
   programs.zed-editor = {
    enable = true;
-   extraPackages = with pkgs; [ nixd nil ];
-   extensions = [ "nix" "make" "toml" "gdscript" "svelte" ];
+   extraPackages = with pkgs; [ nixd nil go gopls ];
+   # user settings in files/zed/
   };
   #programs.nix-ld = {
   #  enable = true;
@@ -107,10 +107,12 @@ in
     ".gitconfig" = "files/gitconfig";
   };
   xdg.configFile = lib.mapAttrs (_: repoPath: { source = mkLink repoPath; }) {
-    "nvim/init.vim"  = "files/init.vim";
     "ghostty/config" = "files/ghostty";
     "tmux/tmux.conf" = "files/tmux.conf";
     "starship.toml"  = "files/starship.toml";
+    "nvim/init.vim"  = "files/init.vim";
+    "zed/keymap.json" = "files/zed/keymap.json";
+    "zed/settings.json" = "files/zed/settings.json";
   };
 
   home.sessionPath = [
