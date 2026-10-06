@@ -9,6 +9,7 @@ in
   # ~
   home.file = lib.mapAttrs (_: repoPath: { source = mkLink repoPath; }) {
     ".gitconfig" = "files/gitconfig";
+    ".bashrc.d" = "files/bashrc.d";
   };
   # ~/.config
   xdg.configFile = lib.mapAttrs (_: repoPath: { source = mkLink repoPath; }) {

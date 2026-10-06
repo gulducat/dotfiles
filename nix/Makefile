@@ -36,7 +36,7 @@ switch:
 	fi
 
 build:
-	nh home build
+	home-manager --flake . build
 
 check:
 	$(NIX) flake check --no-build
