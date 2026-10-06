@@ -1,0 +1,57 @@
+{ pkgs, homeDir, ... }:
+{
+  home.shellAliases = {
+    # code review: https://github.com/oxidecomputer/skepsis
+    sk = "npx @oxide/skepsis";
+  };
+
+  home.packages = with pkgs; [
+    # --- git / github / dev workflow ---
+    delta # git-delta
+    diffnav
+    gh
+    gh-dash
+    gh-enhance
+    hunk
+
+    # --- languages / toolchains ---
+    nodejs
+    pnpm
+    # `go` down below
+    gopls
+    #uv
+    #godot
+
+    # --- linting / scripting ---
+    shellcheck
+    #actionlint
+    #act
+  ];
+
+  #programs.pnpm.enable = true;
+
+  programs.go = {
+    enable = true;
+    env = {
+      GOPATH = [ "${homeDir}/go" ];
+      GOPRIVATE = [
+        "github.com/hashicorp"
+      ];
+    };
+    telemetry.mode = "local";
+  };
+
+  # zed gui needs this... ???
+  targets.genericLinux.nixGL.vulkan.enable = true;
+
+  # https://wiki.nixos.org/wiki/Zed
+  programs.zed-editor = {
+   enable = true;
+   extraPackages = with pkgs; [ nil nixd go gopls ];
+   # user settings in files/zed/
+  };
+  #programs.nix-ld = {
+  #  enable = true;
+  #  libraries = [ pkgs.zlib pkgs.openssl ];
+  #};
+}

@@ -1,0 +1,109 @@
+{ pkgs, ... }:
+let
+  # Custom derivation for a Go tool not (yet) in nixpkgs.
+  hc-install = pkgs.callPackage ./pkgs/hc-install.nix { };
+in
+{
+  home.shellAliases = {
+    a = "source ~/.bash_profile";
+    ls = "lsd";
+    ll = "ls -lh";
+  };
+
+  programs.bash = {
+    enable = true;
+    profileExtra = "";
+    bashrcExtra = ''
+      source ~/.nix-profile/etc/profile.d/nix.sh # TODO: should not need this.
+    '';
+  };
+
+  home.packages = with pkgs; [
+      ghostty
+      tmux
+
+      bat
+      curlie
+      duf
+      fastfetch
+      fd
+      fzf
+      gdu
+      glow
+      lsd
+      procs
+      ripgrep # rg
+      television # tv
+
+      slides
+
+      # custom package, see ../pkgs/hc-install.nix ---
+      hc-install
+  ];
+
+  # fancy ctrl+r history
+  # https://docs.atuin.sh/latest/configuration/config/
+  programs.atuin = {
+    enable = true;
+    flags = ["--disable-up-arrow"];
+    settings = {
+      invert = true;
+      show_tabs = false;
+      enter_accept = true;
+      tmux.enabled = true;
+    };
+    forceOverwriteSettings = true;
+  };
+
+  programs.btop = {
+    enable = true;
+    # https://github.com/aristocratos/btop#configurability
+    settings = {
+      color_theme = "TTY";
+      theme_background = false;
+      vim_keys = true;
+    };
+  };
+
+  programs.lazygit = {
+    enable = true;
+    shellWrapperName = "lg";
+    # https://github.com/jesseduffield/lazygit/blob/master/docs/Config.md
+    settings = {
+      git = {
+        branchLogCmd = "git log --graph --color=always --date=relative --pretty=medium {{branchName}} --";
+        diffRenderers = [{
+          command = "delta --paging=never --detect-dark-light=always --hyperlinks --hyperlinks-file-link-format=\"lazygit-edit://{path}:{line}\"";
+        }];
+      };
+      gui = {
+        theme = {
+          activeBorderColor = [ "green" ];
+          inactiveBorderColor = [ "#777777" ];
+        };
+        nextScreenMode = "+";
+        prevScreenMode = "_";
+        nerdFontsVersion = "3";
+      };
+    };
+  };
+
+  programs.neovim = {
+    enable = true;
+    defaultEditor = true;
+    viAlias = true;
+    vimAlias = true;
+    # do not place init.lua
+    sideloadInitLua = true;
+    plugins = [
+      # TODO: neovim plugins here, instead of init.vim?
+    ];
+  };
+
+  # fancy PS1
+  programs.starship.enable = true;
+
+  # fancy fuzzy cd
+  programs.zoxide.enable = true;
+
+}

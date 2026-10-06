@@ -1,11 +1,12 @@
-{ username, homeDir, ... }:
-
+{ config, username, homeDir, flakeDir, ... }:
 {
-
   imports = [
-    ./packages.nix
-    ./activation.nix
+    ./shell.nix
+    ./code.nix
+    ./gui.nix
+    ./config-links.nix
     ./onlyoffice.nix
+    ./activation.nix
   ];
 
   home.username = username;
@@ -21,4 +22,13 @@
   # Lets home-manager manage itself (adds the `home-manager` CLI command
   # to your profile, so you don't need to reach for it via `nix run`).
   programs.home-manager.enable = true;
+
+  # `nh` is "yet another Nix CLI helper"
+  # https://github.com/nix-community/nh
+  programs.nh = {
+    enable = true;
+    clean.enable = true;
+    clean.extraArgs = "--keep-since 4d --keep 3";
+    flake = "${flakeDir}"; # sets NH_FLAKE var
+  };
 }
