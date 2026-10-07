@@ -19,7 +19,6 @@
 
     # gnome
     gnome-tweaks
-    gnome-shell-extensions
     seahorse
 
     # social
@@ -39,6 +38,37 @@
   # spotify, vivaldi, ...
   nixpkgs.config.allowUnfree = true;
 
+  # https://nix-community.github.io/home-manager/options/home-manager/programs/gnome-shell.html
+  # equiv: dconf.settings."org/gnome/shell"
+  programs.gnome-shell = {
+    enable = true;
+    # https://search.nixos.org/packages?channel=unstable&query=gnomeExtensions.
+    # https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/desktops/gnome/extensions/extensionRenames.nix
+    extensions = with pkgs.gnomeExtensions; [
+      { # tray icons
+        # https://github.com/ubuntu/gnome-shell-extension-appindicator
+        package = appindicator; }
+
+      # paperwm does its own top bar styling
+      #{ # https://github.com/metehan-arslan/gnome-compact-top-bar
+      #  package = compact-top-bar; }
+
+      { package = emoji-copy; }
+
+      { # hide "___ is ready" notifications
+        # https://github.com/zalckos/GrandTheftFocus
+        package = grand-theft-focus; }
+
+      { # tiling window manager # TODO: ~/.config/paperwm ? or...
+        # https://github.com/paperwm/PaperWM
+        package = paperwm; }
+
+      { # cpu/mem/etc
+        # https://github.com/corecoding/Vitals
+        package = vitals; }
+    ];
+  };
+
   # https://nixos.wiki/wiki/GNOME
   # https://hoverbear.org/blog/declarative-gnome-configuration-in-nixos/
   dconf.settings = {
@@ -54,16 +84,6 @@
     #"org/gnome/desktop/input-sources/xkb-options" = [
     #  "ctrl:swapcaps"
     #];
-    "org/gnome/shell" = {
-      disable-user-extensions = false;
-      # https://search.nixos.org/packages?channel=unstable&query=gnomeExtensions.
-      # https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/desktops/gnome/extensions/extensionRenames.nix
-      # curl https://raw.githubusercontent.com/NixOS/nixpkgs/refs/heads/nixos-unstable/pkgs/desktops/gnome/extensions/extensions.json
-      enabled-extensions = with pkgs.gnomeExtensions; [
-        appindicator.extensionUuid # "appindicatorsupport@rgcjonas.gmail.com"
-        emoji-copy.extensionUuid # "emoji-copy@felipeftn"
-      ];
-    };
   };
 
 }
