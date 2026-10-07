@@ -17,10 +17,10 @@ in
       source ~/.nix-profile/etc/profile.d/nix.sh # TODO: should not need this.
 
       if [ -d ~/.bashrc.d ]; then
-          for rc in ~/.bashrc.d/*.sh; do
-              [ -f "$rc" ] && . "$rc"
-          done
-          unset rc
+        for rc in ~/.bashrc.d/*.sh; do
+          [ -f "$rc" ] && . "$rc"
+        done
+        unset rc
       fi
     '';
   };
@@ -29,6 +29,10 @@ in
       ghostty
       tmux
 
+      # basics
+      lsof
+
+      # fancy
       bat
       curlie
       duf
@@ -37,6 +41,7 @@ in
       fzf
       gdu
       glow
+      jq
       lsd
       procs
       ripgrep # rg
@@ -44,7 +49,7 @@ in
 
       slides
 
-      # custom package, see ../pkgs/hc-install.nix ---
+      # custom
       hc-install
   ];
 
