@@ -1,6 +1,6 @@
 { pkgs, ... }:
 let
-  # Custom derivation for a Go tool not (yet) in nixpkgs.
+  srt = pkgs.callPackage ./pkgs/srt.nix { };
   hc-install = pkgs.callPackage ./pkgs/hc-install.nix { };
 in
 {
@@ -51,6 +51,7 @@ in
 
       # custom
       hc-install
+      srt
   ];
 
   # fancy ctrl+r history
