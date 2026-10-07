@@ -24,5 +24,14 @@
     "unbind": {
       "shift-escape": "workspace::ToggleZoom"
     }
-  }
+  },
+  {
+    "context": "Workspace && (!Terminal || Debugger)",
+    "bindings": {
+      "ctrl-a k": "workspace::ActivatePaneUp",
+      "ctrl-a j": "workspace::ActivatePaneDown",
+      "ctrl-a h": "workspace::ActivatePaneLeft",
+      "ctrl-a l": "workspace::ActivatePaneRight",
+    }
+  },
 ]

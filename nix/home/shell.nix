@@ -8,6 +8,7 @@ in
     a = "source ~/.bash_profile";
     ls = "lsd";
     ll = "ls -lh";
+    cat = "bat --plain --paging=never";
   };
 
   programs.bash = {
