@@ -6,13 +6,16 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
-    home-manager = {
+    home-manager = { inputs.nixpkgs.follows = "nixpkgs"; # share store
       url = "github:nix-community/home-manager";
-      inputs.nixpkgs.follows = "nixpkgs"; # share store
+    };
+
+    crit = { inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:tomasz-tomczyk/crit";
     };
   };
 
-  outputs = { nixpkgs, home-manager, ... }:
+  outputs = inputs@{ nixpkgs, home-manager, ... }:
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs {
@@ -37,7 +40,7 @@
       homeConfigurations.${username} = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         modules = [ ./home/home.nix ];
-        extraSpecialArgs = { inherit username homeDir flakeDir; };
+        extraSpecialArgs = { inherit inputs username homeDir flakeDir; };
       };
     };
 }

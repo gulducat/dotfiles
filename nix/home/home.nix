@@ -1,10 +1,11 @@
-{ config, username, homeDir, flakeDir, ... }:
+{ username, homeDir, flakeDir, ... }:
 {
   imports = [
     ./shell.nix
     ./code.nix
     ./gui.nix
     ./config-links.nix
+    ./flakes.nix
     ./onlyoffice.nix
     ./activation.nix
   ];
