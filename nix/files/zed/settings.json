@@ -48,10 +48,13 @@
   "git_panel": {"dock": "left"},
   "agent": {
     "dock": "right",
-    "sidebar_side": "right"
+    "threads_sidebar": {
+      "position": "right"
+    }
   },
 
   "auto_install_extensions": {
+    "catppuccin-icons": true,
     "make": true,
     "nix": true,
     "toml": true,

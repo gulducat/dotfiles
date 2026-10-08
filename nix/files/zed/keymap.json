@@ -10,19 +10,32 @@
     },
   },
   {
-    "context": "Editor && vim_mode == insert",
-    "bindings": {
-      // "j k": "vim::NormalBefore"
-    },
-  },
-  {
     "bindings": {
       "ctrl-\"": "workspace::ToggleZoom"
     }
   },
   {
-    "unbind": {
-      "shift-escape": "workspace::ToggleZoom"
+    "context": "Workspace || Pane",
+    "bindings": {
+      "alt-1": "project_panel::Toggle"
+    }
+  },
+  {
+    "context": "Workspace || Pane",
+    "bindings": {
+      "alt-2": "git_panel::Toggle"
+    }
+  },
+  {
+    "context": "Workspace || Pane",
+    "bindings": {
+      "alt-3": "outline_panel::Toggle"
+    }
+  },
+  {
+    "context": "!VimControl",
+    "bindings": {
+      "ctrl-w": "pane::CloseActiveItem"
     }
   },
   {

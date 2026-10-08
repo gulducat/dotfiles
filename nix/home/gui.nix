@@ -72,8 +72,9 @@
   # https://hoverbear.org/blog/declarative-gnome-configuration-in-nixos/
   dconf.settings = {
     # discover settings paths with `dconf watch /` or `dconf dump /`
-    "org/gnome/desktop/wm/preferences" = {
-      "resize-with-right-button" = true;
+    "org/gnome/desktop" = {
+      "interface/show-battery-percentage" = true;
+      "wm/preferences.resize-with-right-button" = true;
     };
     #"org/gnome/desktop/background" = {
     #  picture-uri = "file:///path/to/light.png";

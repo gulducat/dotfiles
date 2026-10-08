@@ -8,7 +8,7 @@
 ##custom-shader = shaders/cursor_warp.glsl
 ##custom-shader = shaders/cursor-ripple_cursor.glsl
 
-font-size = 14
+font-size = 13
 font-family = "JetBrainsMono Nerd Font"
 # ghostty +list-themes
 # "one double dark" matches nvim's "onedarkpro"
