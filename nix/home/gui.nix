@@ -2,7 +2,6 @@
 {
   home.packages = with pkgs; [
     # TODO: dropbox
-    # TODO: mullvad
 
     # english words
     calibre

@@ -81,13 +81,7 @@
     };
   };
 
-  # magic extra libraries ??? for zed language servers...??
-  # https://github.com/nix-community/nix-ld
-  #programs.nix-ld.libraries = with pkgs; [
-  #  openssl
-  #  zlib
-  #  libsecret
-  #  glib
-  #];
-
+  # https://wiki.nixos.org/wiki/Mullvad_VPN
+  services.mullvad-vpn.enable = true;
+  services.mullvad-vpn.gui.enable = true;
 }
