@@ -32,7 +32,7 @@
     {
       # nh os switch
       nixosConfigurations.${hostname} = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
+        inherit system;
         modules = [ ./system/configuration.nix ];
       };
 
