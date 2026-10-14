@@ -2,6 +2,7 @@
 {
   imports = [
     ./shell.nix
+    ./nvim.nix
     ./code.nix
     ./gui.nix
     ./config-links.nix

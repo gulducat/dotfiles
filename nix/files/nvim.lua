@@ -1,7 +1,39 @@
-" <leader> = \ , so "\r" will reload this config
-nnoremap <leader>r :source "~/.config/nvim/init.vim" <CR> :echo "config reloaded!"<CR>
-nnoremap <leader>tt :ToggleTheme <CR>
-nnoremap <leader>w :Goyo <CR>
+-- shortcuts
+
+-- <leader> = \ , so e.g. "\r" will reload this config
+vim.keymap.set('n', '<leader>r', function() vim.cmd([[
+  source ~/.config/nvim/lua/bespoke.lua
+  echo 'config reloaded!'
+]])end)
+
+vim.keymap.set('n', '<leader>w', function() require('zen-mode').toggle() end)
+
+local scope = require('telescope.builtin')
+vim.keymap.set('n', '<leader>ff', scope.find_files, { desc = 'Telescope find files' })
+vim.keymap.set('n', '<leader>fg', scope.live_grep, { desc = 'Telescope live grep' })
+vim.keymap.set('n', '<leader>fb', scope.buffers, { desc = 'Telescope buffers' })
+vim.keymap.set('n', '<leader>fh', scope.help_tags, { desc = 'Telescope help tags' })
+
+-- display
+
+-- auto light/dark mode
+local function set_colorscheme()
+  vim.cmd.colorscheme(
+    vim.o.background == "light"
+    and "PaperColorSlimLight"
+    or "onedark_vivid"
+  )
+end
+set_colorscheme()
+vim.api.nvim_create_autocmd("OptionSet", {
+  pattern = "background",
+  callback = set_colorscheme,
+})
+
+vim.o.linebreak = true;
+
+-- old school
+vim.cmd([[
 " <Ctrl-l> redraws the screen and removes any search highlighting.
 nnoremap <silent> <C-l> :nohl<CR><C-l>
 
@@ -27,7 +59,7 @@ set colorcolumn=81,101 " line length indicators
 filetype plugin on
 augroup clean_text
   autocmd!
-  autocmd FileType markdown,text 
+  autocmd FileType markdown,text
   \ set colorcolumn=0
   \ | set nonumber
   \ | set norelativenumber
@@ -40,22 +72,12 @@ autocmd CursorHoldI,CursorHold * silent! update
 " https://github.com/junegunn/vim-plug
 call plug#begin()
 
-"Plug 'joshdick/onedark.vim'
-Plug 'olimorris/onedarkpro.nvim'
-Plug 'NLKNguyen/papercolor-theme'
-"Plug 'folke/tokyonight.nvim'
-"Plug 'projekt0n/github-nvim-theme'
-Plug 'f-person/auto-dark-mode.nvim'
-
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
-
-Plug 'preservim/nerdtree' " https://github.com/preservim/nerdtree
+" youtube: rethinking neovim as a tool for writers
+":set spell"
 
 "Plug 'tpope/vim-fugitive'
-Plug 'lewis6991/gitsigns.nvim'
 
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+"Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 
 " :Goyo
 Plug 'junegunn/goyo.vim' " https://vimawesome.com/plugin/goyo-vim
@@ -74,68 +96,16 @@ Plug 'reedes/vim-wordy' " https://vimawesome.com/plugin/vim-wordy
 "Plug 'yuttie/comfortable-motion.vim'
 
 " needs pandoc installed
-Plug 'vim-pandoc/vim-pandoc'
-Plug 'vim-pandoc/vim-pandoc-syntax'
-
-" :Pencil<tab> -- word-wrap, mainly, if not using vim-pandoc
-"Plug 'reedes/vim-pencil' " https://vimawesome.com/plugin/vim-pencil
+"Plug 'vim-pandoc/vim-pandoc'
+"Plug 'vim-pandoc/vim-pandoc-syntax'
 
 "Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 "Plug 'ziglang/zig.vim'
 
 call plug#end()
 
-" PencilSoft
-"augroup pencil
-"  autocmd!
-"  autocmd FileType markdown,mkd call pencil#init()
-"  autocmd FileType text         call pencil#init()
-"augroup END
-
 "hi Normal ctermbg=NONE guibg=282c34
 "autocmd ColorScheme * highlight Normal ctermbg=NONE guibg=282c34
-
-colorscheme onedark_vivid
-lua <<EOF
-  local auto_dark_mode = require('auto-dark-mode')
-  auto_dark_mode.setup({
-  	update_interval = 1000,
-  	set_dark_mode = function()
-  		vim.api.nvim_set_option('background', 'dark')
-  		vim.cmd('colorscheme onedark_vivid')
-  	end,
-  	set_light_mode = function()
-  		vim.api.nvim_set_option('background', 'light')
-  		vim.cmd('colorscheme PaperColor')
-  	end,
-  })
-EOF
-
-" theme toggle, courtesy of IBM bob
-let g:theme_state = 0
-command! ToggleTheme call s:ToggleTheme()
-function! s:ToggleTheme()
-  if g:theme_state == 1
-    set background=dark
-    colorscheme onedark
-    echo 'Theme: onedark_vivid'
-    let g:theme_state = 0
-  else
-    set background=light
-    colorscheme PaperColor
-    echo 'Theme: PaperColor (light)'
-    let g:theme_state = 1
-  endif
-endfunction
-
-lua << EOF
-require('gitsigns').setup({
-  current_line_blame = true,
-  current_line_blame_opts = {
-    delay = 300,
-  },
-})
-EOF
 
 augroup golang
   autocmd!
@@ -176,3 +146,4 @@ let g:pandoc#modules#disabled = ["folding"]
 "hi! link pandocUListItemBullet Operator
 
 "set foldmethod=manual
+]])

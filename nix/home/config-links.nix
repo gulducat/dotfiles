@@ -13,12 +13,12 @@ in
   };
   # ~/.config
   xdg.configFile = lib.mapAttrs (_: repoPath: { source = mkLink repoPath; }) {
-    "ghostty/config" = "files/ghostty";
-    "hunk/config.toml" = "files/hunk.toml";
-    "nvim/init.vim"  = "files/init.vim";
-    "starship.toml"  = "files/starship.toml";
-    "tmux/tmux.conf" = "files/tmux.conf";
-    "zed/keymap.json" = "files/zed/keymap.json";
-    "zed/settings.json" = "files/zed/settings.json";
+    "ghostty/config"       = "files/ghostty";
+    "hunk/config.toml"     = "files/hunk.toml";
+    "nvim/lua/bespoke.lua" = "files/nvim.lua";
+    "starship.toml"        = "files/starship.toml";
+    "tmux/tmux.conf"       = "files/tmux.conf";
+    "zed/keymap.json"      = "files/zed/keymap.json";
+    "zed/settings.json"    = "files/zed/settings.json";
   };
 }

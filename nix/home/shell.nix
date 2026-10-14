@@ -1,9 +1,13 @@
-{ pkgs, ... }:
+{ pkgs, homeDir, ... }:
 let
   srt = pkgs.callPackage ./pkgs/srt.nix { };
   hc-install = pkgs.callPackage ./pkgs/hc-install.nix { };
 in
 {
+  home.sessionPath = [
+    "${homeDir}/go/bin"
+  ];
+
   home.shellAliases = {
     a = "source ~/.bash_profile";
     ls = "lsd";
@@ -50,7 +54,7 @@ in
 
       slides
 
-      # custom
+      # bespoke
       hc-install
       srt
   ];
@@ -100,18 +104,6 @@ in
         nerdFontsVersion = "3";
       };
     };
-  };
-
-  programs.neovim = {
-    enable = true;
-    defaultEditor = true;
-    viAlias = true;
-    vimAlias = true;
-    # do not place init.lua
-    sideloadInitLua = true;
-    plugins = [
-      # TODO: neovim plugins here, instead of init.vim?
-    ];
   };
 
   # fancy PS1

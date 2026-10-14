@@ -15,6 +15,7 @@
     hunk
 
     # --- languages / toolchains ---
+    gcc
     nodejs
     pnpm
     # `go` down below
@@ -47,7 +48,11 @@
   # https://wiki.nixos.org/wiki/Zed
   programs.zed-editor = {
    enable = true;
-   extraPackages = with pkgs; [ nil nixd go gopls ];
+   extraPackages = with pkgs; [
+     nil nixd
+     lua-language-server
+     go gopls delve
+   ];
    # user settings in files/zed/
   };
   #programs.nix-ld = {
