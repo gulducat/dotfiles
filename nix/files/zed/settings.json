@@ -45,6 +45,8 @@
     "enabled": true
   },
 
+  "auto_signature_help": true,
+
   /* interaction */
 
   "base_keymap": "JetBrains",

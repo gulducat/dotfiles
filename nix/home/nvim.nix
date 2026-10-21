@@ -2,7 +2,6 @@
 {
   # https://wiki.nixos.org/wiki/Neovim
   # https://nix-community.github.io/home-manager/options/home-manager/programs/neovim.html
-  # TODO: https://cocnvim.com ??
   programs.neovim = {
     enable = true;
     defaultEditor = true;
@@ -59,6 +58,8 @@
 
       # vim.lsp - :help lsp
       nvim-lspconfig # https://github.com/neovim/nvim-lspconfig
+
+      tiny-inline-diagnostic-nvim # https://github.com/rachartier/tiny-inline-diagnostic.nvim
 
       blink-cmp # https://github.com/saghen/blink.cmp
 

@@ -1,4 +1,27 @@
--- shortcuts
+--[[ fancy hotkey cheat-sheet:
+
+:help vim.lsp
+ - "gra" (Normal and Visual mode) is mapped to vim.lsp.buf.code_action()
+ - "gri" is mapped to vim.lsp.buf.implementation()
+ - "grn" is mapped to vim.lsp.buf.rename()
+ - "grr" is mapped to vim.lsp.buf.references()
+ - "grt" is mapped to vim.lsp.buf.type_definition()
+ - "grx" is mapped to vim.lsp.codelens.run()
+ - "gO" is mapped to vim.lsp.buf.document_symbol()
+ - "K" is mapped to vim.lsp.buf.hover()
+ - CTRL-S (Insert mode) is mapped to vim.lsp.buf.signature_help()
+ - CTRL-X CTRL-O is mapped to vim.lsp.omnifunc()
+
+:help vim.diagnostic
+ - `]d` jumps to the next diagnostic in the buffer.
+ - `[d` jumps to the previous diagnostic in the buffer.
+ - `]D` jumps to the last diagnostic in the buffer.
+ - `[D` jumps to the first diagnostic in the buffer.
+ - `<C-w>d` shows diagnostic at cursor in a floating window.fault|
+
+]]
+
+-- custom shortcuts
 
 -- <leader> = \ , so e.g. "\r" will reload this config
 vim.keymap.set('n', '<leader>r', function()
@@ -89,6 +112,21 @@ require('blink-cmp').setup({
   signature = { enabled = true },
 })
 
+require('tiny-inline-diagnostic').setup({
+  preset = 'powerline',
+  options = {
+    multilines = {
+      enabled = true,
+      always_show = true,
+      severity = { vim.diagnostic.severity.ERROR },
+    },
+    show_source = {
+      enabled = true,
+    },
+  },
+})
+vim.diagnostic.config({ virtual_text = false }) -- Disable Neovim's default virtual text diagnostics
+
 -- go
 -- https://go.dev/gopls/settings
 vim.lsp.config('gopls', {
@@ -110,7 +148,7 @@ vim.lsp.enable('gopls')
 vim.api.nvim_create_autocmd("BufWritePre", {
   pattern = "*.go",
   callback = function()
-    local params = vim.lsp.util.make_range_params()
+    local params = vim.lsp.util.make_range_params(0, "utf-32")
     params.context = {only = {"source.organizeImports"}}
     -- buf_request_sync defaults to a 1000ms timeout. Depending on your
     -- machine and codebase, you may want longer. Add an additional
@@ -151,32 +189,4 @@ autocmd CursorHoldI,CursorHold * silent! update
 
 "hi Normal ctermbg=NONE guibg=282c34
 "autocmd ColorScheme * highlight Normal ctermbg=NONE guibg=282c34
-
-" pandoc folds are annoyingly collapsed-by-default,
-" and really I want to make manual folds, anyway.
-let g:pandoc#modules#disabled = ["folding"]
-
-" un-highlight pandoc
-"hi! link pandocAtxHeader markdownH1
-"hi! link pandocBlockQuote markdownBlockquote
-"hi! link pandocCiteAnchor Operator
-"hi! link pandocCiteKey pandocReferenceLabel
-"hi! link pandocDefinitionBlockMark Operator
-"hi! link pandocEmphasis markdownItalic
-"hi! link pandocFootnoteID pandocReferenceLabel
-"hi! link pandocFootnoteIDHead markdownLinkDelimiter
-"hi! link pandocFootnoteIDTail pandocFootnoteIDHead
-"hi! link pandocGridTableDelims pandocTableDelims
-"hi! link pandocGridTableHeader pandocTableDelims
-"hi! link pandocOperator Operator
-"hi! link pandocPipeTableDelims pandocTableDelims
-"hi! link pandocReferenceDefinition pandocReferenceLabel
-"hi! link pandocReferenceLabel markdownLinkText
-"hi! link pandocReferenceURL markdownUrl
-"hi! link pandocSimpleTableHeader pandocAtxHeader
-"hi! link pandocStrong markdownBold
-"hi! link pandocTableHeaderWord pandocAtxHeader
-"hi! link pandocUListItemBullet Operator
-
-"set foldmethod=manual
 ]])
