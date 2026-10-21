@@ -1,4 +1,4 @@
-{ username, homeDir, flakeDir, ... }:
+{ pkgs, username, homeDir, flakeDir, ... }:
 {
   imports = [
     ./shell.nix
@@ -33,4 +33,13 @@
     clean.extraArgs = "--keep-since 4d --keep 3";
     flake = "${flakeDir}"; # sets NH_FLAKE var
   };
+
+  fonts.fontconfig.enable = true;
+  home.packages = with pkgs; [
+    nerd-fonts.jetbrains-mono # "JetBrainsMono Nerd Font"
+    eb-garamond
+    garamond-libre
+    corefonts
+  ];
+
 }

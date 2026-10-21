@@ -17,14 +17,6 @@
     flake = "/home/koalia/dotfiles/nixos"; # sets NH_FLAKE var
   };
 
-  fonts.fontconfig.enable = true;
-  fonts.packages = with pkgs; [
-    nerd-fonts.jetbrains-mono
-    eb-garamond
-    garamond-libre
-    corefonts
-  ];
-
   environment.systemPackages = with pkgs; [
     fastfetch
     tmux
