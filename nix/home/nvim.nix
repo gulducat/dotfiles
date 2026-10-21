@@ -57,9 +57,10 @@
 
       # code
 
-      # TODO: https://github.com/hrsh7th/nvim-cmp ??
+      # vim.lsp - :help lsp
+      nvim-lspconfig # https://github.com/neovim/nvim-lspconfig
 
-      vim-go # https://github.com/fatih/vim-go
+      blink-cmp # https://github.com/saghen/blink.cmp
 
       gitsigns-nvim # https://github.com/lewis6991/gitsigns.nvim
 
