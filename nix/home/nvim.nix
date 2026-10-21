@@ -21,48 +21,17 @@
       onedarkpro-nvim # https://github.com/olimorris/onedarkpro.nvim/
       papercolor-theme-slim # https://github.com/pappasam/papercolor-theme-slim/
 
-      { # https://github.com/preservim/vim-pencil
-        plugin = vim-pencil;
-        # TODO: lua?
-        config = ''vim.cmd([[
-        augroup pencil
-          autocmd!
-          autocmd FileType markdown,mkd call pencil#init()
-          autocmd FileType text         call pencil#init()
-        augroup END
-        ]])
-        '';
-      }
+      goyo-vim      # https://vimawesome.com/plugin/goyo-vim
+      limelight-vim # https://github.com/junegunn/limelight.vim
+      # :PencilSoft allows j/k within long wrapped lines.
+      vim-pencil    # https://github.com/preservim/vim-pencil
+      vim-wordy     # https://github.com/preservim/vim-wordy
 
-      twilight-nvim # https://github.com/folke/twilight.nvim
-      { # https://github.com/folke/zen-mode.nvim
-        plugin = zen-mode-nvim;
-        config = ''
-        require('zen-mode').setup({
-          window = {
-            backdrop = 1,
-            width = .55,
-            height= .85,
-            options = {
-              signcolumn = "no",
-              number = false,
-              relativenumber = false,
-              cursorline = false,
-            },
-          },
-          plugins = {
-            tmux = { enabled = true },
-            -- global vim options
-            options = {
-              enabled = true,
-              ruler = false,
-              showcmd = false,
-              laststatus = 0,
-            },
-          },
-        })
-        '';
-      }
+      # maybe one day folke will fix this bug:
+      # - https://github.com/folke/twilight.nvim/issues/54
+      # then I might trust him a little more and also use his
+      # - https://github.com/folke/zen-mode.nvim
+      # until then, limelight and goyo are reliable.
 
       # treesitter https://github.com/nvim-treesitter/nvim-treesitter
       # parsers:
@@ -92,17 +61,7 @@
 
       vim-go # https://github.com/fatih/vim-go
 
-      { # https://github.com/lewis6991/gitsigns.nvim
-        plugin = gitsigns-nvim;
-        #config = ''
-        #require('gitsigns').setup({
-        #  current_line_blame = true,
-        #  current_line_blame_opts = {
-        #    delay = 300,
-        #  },
-        #})
-        #'';
-      }
+      gitsigns-nvim # https://github.com/lewis6991/gitsigns.nvim
 
     ];
   };

@@ -1,12 +1,18 @@
 -- shortcuts
 
 -- <leader> = \ , so e.g. "\r" will reload this config
-vim.keymap.set('n', '<leader>r', function() vim.cmd([[
-  source ~/.config/nvim/lua/bespoke.lua
-  echo 'config reloaded!'
-]])end)
+vim.keymap.set('n', '<leader>r', function()
+  vim.cmd('luafile ~/.config/nvim/lua/bespoke.lua')
+  vim.notify('config reloaded!')
+end)
 
-vim.keymap.set('n', '<leader>w', function() require('zen-mode').toggle() end)
+vim.keymap.set('n', '<leader>tn', function() vim.cmd('tabnew') end)
+
+vim.keymap.set('n', '<leader>w', function() vim.cmd.Goyo() end)
+
+vim.keymap.set('n', '<C-n>', function() vim.cmd('NERDTree') end)
+vim.keymap.set('n', '<C-t>', function() vim.cmd('NERDTreeToggle') end)
+vim.keymap.set('n', '<C-f>', function() vim.cmd('NERDTreeFind') end)
 
 local scope = require('telescope.builtin')
 vim.keymap.set('n', '<leader>ff', scope.find_files, { desc = 'Telescope find files' })
@@ -19,9 +25,7 @@ vim.keymap.set('n', '<leader>fh', scope.help_tags, { desc = 'Telescope help tags
 -- auto light/dark mode
 local function set_colorscheme()
   vim.cmd.colorscheme(
-    vim.o.background == "light"
-    and "PaperColorSlimLight"
-    or "onedark_vivid"
+    vim.o.background == "light" and "PaperColorSlimLight" or "onedark_vivid"
   )
 end
 set_colorscheme()
@@ -30,17 +34,49 @@ vim.api.nvim_create_autocmd("OptionSet", {
   callback = set_colorscheme,
 })
 
-vim.o.linebreak = true;
+-- writer mode:
+-- remember: `:set spell`
+-- - youtube: rethinking neovim as a tool for writers
+vim.g.goyo_width = 80
+vim.g.goyo_height = 95
+vim.g.limelight_paragraph_span = 1
+vim.api.nvim_create_autocmd('User', { pattern = 'GoyoEnter',
+  callback = function()
+    vim.cmd.Limelight()
+    vim.opt.signcolumn = 'no'
+    vim.system({'tmux', 'set-option', 'status', 'off'})
+  end,
+})
+vim.api.nvim_create_autocmd('User', { pattern = 'GoyoLeave',
+  callback = function()
+    vim.cmd(':Limelight!')
+    vim.opt.signcolumn = 'auto'
+    vim.system({'tmux', 'set-option', 'status', 'on'})
+  end,
+})
+
+vim.opt.linebreak = true
+vim.opt.number = true
+vim.opt.relativenumber = true
+vim.opt.colorcolumn = '81,101' -- line length indicators
+vim.opt.foldmethod = 'syntax'
+
+-- cleaner formatting for writing prose
+vim.api.nvim_create_autocmd('FileType', { pattern = 'text,markdown',
+  callback = function()
+    vim.cmd('PencilSoft')
+    vim.opt.number = false
+    vim.opt.relativenumber = false
+    vim.opt.colorcolumn = '0'
+    vim.opt.foldmethod = 'manual'
+  end
+})
 
 -- old school
 vim.cmd([[
+
 " <Ctrl-l> redraws the screen and removes any search highlighting.
 nnoremap <silent> <C-l> :nohl<CR><C-l>
-
-"nnoremap <leader>n :NERDTreeToggle<CR>
-nnoremap <C-n> :NERDTree<CR>
-nnoremap <C-t> :NERDTreeToggle<CR>
-nnoremap <C-f> :NERDTreeFind<CR>
 
 set mouse=a
 
@@ -51,58 +87,9 @@ set termguicolors
 
 set shortmess=aW " 'short message'
 
-set number
-set relativenumber
-
-set colorcolumn=81,101 " line length indicators
-
-filetype plugin on
-augroup clean_text
-  autocmd!
-  autocmd FileType markdown,text
-  \ set colorcolumn=0
-  \ | set nonumber
-  \ | set norelativenumber
-augroup END
-
 " auto-save modified buffer during idle after 'updatetime'
 " has elapsed (default 4 sec)
 autocmd CursorHoldI,CursorHold * silent! update
-
-" https://github.com/junegunn/vim-plug
-call plug#begin()
-
-" youtube: rethinking neovim as a tool for writers
-":set spell"
-
-"Plug 'tpope/vim-fugitive'
-
-"Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-
-" :Goyo
-Plug 'junegunn/goyo.vim' " https://vimawesome.com/plugin/goyo-vim
-let g:goyo_width = 85
-let g:goyo_height = 95
-
-" :Limelight!!
-Plug 'junegunn/limelight.vim' " https://github.com/junegunn/limelight.vim
-"let g:limelight_conceal_ctermfg = 240
-
-" :Wordy <tab>
-Plug 'reedes/vim-wordy' " https://vimawesome.com/plugin/vim-wordy
-
-"meh
-"Plug 'vim-scripts/scrollfix'
-"Plug 'yuttie/comfortable-motion.vim'
-
-" needs pandoc installed
-"Plug 'vim-pandoc/vim-pandoc'
-"Plug 'vim-pandoc/vim-pandoc-syntax'
-
-"Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-"Plug 'ziglang/zig.vim'
-
-call plug#end()
 
 "hi Normal ctermbg=NONE guibg=282c34
 "autocmd ColorScheme * highlight Normal ctermbg=NONE guibg=282c34
@@ -114,10 +101,6 @@ augroup golang
   \ | nnoremap <C-]> :GoDef<CR>
   \ | nnoremap <C-[> :GoDefPop<CR>
 augroup END
-
-autocmd! User GoyoEnter Limelight
-autocmd! User GoyoLeave Limelight!
-"autocmd! User GoyoEnter set foldmethod=manual
 
 " pandoc folds are annoyingly collapsed-by-default,
 " and really I want to make manual folds, anyway.
