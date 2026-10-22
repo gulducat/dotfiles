@@ -4,7 +4,7 @@
     # TODO: dropbox
 
     # english words
-    calibre
+    calibre-no-speech # base calibre has a huge japanese tts lib...
     pandoc
     onlyoffice-desktopeditors
     libreoffice
