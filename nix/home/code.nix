@@ -20,6 +20,10 @@
     pnpm
     # `go` down below
     gopls
+    lua-language-server
+    nixd
+    ruff # python linter / language server
+    typescript-language-server
     #uv
     #godot
 

@@ -99,6 +99,9 @@ vim.api.nvim_create_autocmd('FileType', { pattern = 'text,markdown',
 
 -- code
 
+-- indent-blankline indicators
+require('ibl').setup()
+
 -- lil completion pop-up
 require('blink-cmp').setup({
   -- not when i'm writing prose, please.
@@ -126,6 +129,22 @@ require('tiny-inline-diagnostic').setup({
   },
 })
 vim.diagnostic.config({ virtual_text = false }) -- Disable Neovim's default virtual text diagnostics
+
+require('telescope').setup({
+  extensions = {
+    ['ui-select'] = { require('telescope.themes').get_dropdown {} }
+  }
+})
+require('telescope').load_extension('ui-select')
+
+-- language servers
+vim.lsp.enable('nixd')
+vim.lsp.enable('ruff') -- python
+vim.lsp.enable('ts_ls') -- typescript
+
+-- neovim + lua for editing this very file
+require('lazydev').setup()
+vim.lsp.enable('lua_ls')
 
 -- go
 -- https://go.dev/gopls/settings

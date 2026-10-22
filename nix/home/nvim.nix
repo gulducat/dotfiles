@@ -32,6 +32,8 @@
       # - https://github.com/folke/zen-mode.nvim
       # until then, limelight and goyo are reliable.
 
+      indent-blankline-nvim # https://github.com/lukas-reineke/indent-blankline.nvim
+
       # treesitter https://github.com/nvim-treesitter/nvim-treesitter
       # parsers:
       # curl -Ls https://github.com/NixOS/nixpkgs/raw/refs/heads/nixos-26.05/pkgs/applications/editors/vim/plugins/nvim-treesitter/generated.nix | awk '/buildGrammar/ {print$1}'
@@ -49,15 +51,20 @@
 
       # navigation
 
+      # TODO: https://github.com/nvim-tree/nvim-tree.lua/ ? other?
       nerdtree # https://github.com/preservim/nerdtree/
 
       # https://github.com/nvim-telescope/telescope.nvim
-      telescope-nvim plenary-nvim
+      telescope-nvim
+      plenary-nvim # core dependency
+      telescope-fzf-native-nvim
+      telescope-ui-select-nvim
 
       # code
 
       # vim.lsp - :help lsp
       nvim-lspconfig # https://github.com/neovim/nvim-lspconfig
+      lazydev-nvim # https://github.com/folke/lazydev.nvim
 
       tiny-inline-diagnostic-nvim # https://github.com/rachartier/tiny-inline-diagnostic.nvim
 
