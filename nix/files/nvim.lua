@@ -85,6 +85,7 @@ vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.colorcolumn = '81,101' -- line length indicators
 vim.opt.foldmethod = 'syntax'
+vim.opt.foldlevel = 2
 
 -- cleaner formatting for writing prose
 vim.api.nvim_create_autocmd('FileType', { pattern = 'text,markdown',
@@ -101,6 +102,16 @@ vim.api.nvim_create_autocmd('FileType', { pattern = 'text,markdown',
 
 -- indent-blankline indicators
 require('ibl').setup()
+
+-- treesitter
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = { 'markdown', 'nix', 'lua', 'json', 'go', 'py', 'sh', 'bash', 'rs' },
+  callback = function()
+    vim.opt.foldmethod = "expr"
+    vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+    vim.treesitter.start()
+ end,
+})
 
 -- lil completion pop-up
 require('blink-cmp').setup({
