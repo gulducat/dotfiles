@@ -58,20 +58,21 @@
 
   # key mappings - this method applies across all desktop environments.
   # (xkb works on everything *except* for gnome, which instead uses dconf)
-  services.keyd = {
-    enable = true;
-    keyboards = {
-      default = {
-        ids = [ "*" ]; # all keyboards
-        settings = {
-          main = {
-            capslock = "leftcontrol";
-            leftcontrol = "capslock";
-          };
-        };
-      };
-    };
-  };
+  # disabled in favor of dconf in home/ to work on non-nixos installs.
+  #services.keyd = {
+  #  enable = true;
+  #  keyboards = {
+  #    default = {
+  #      ids = [ "*" ]; # all keyboards
+  #      settings = {
+  #        main = {
+  #          capslock = "leftcontrol";
+  #          leftcontrol = "capslock";
+  #        };
+  #      };
+  #    };
+  #  };
+  #};
 
   # https://wiki.nixos.org/wiki/Mullvad_VPN
   services.mullvad-vpn.enable = true;

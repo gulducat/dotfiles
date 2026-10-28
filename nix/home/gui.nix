@@ -59,9 +59,9 @@
         # https://github.com/zalckos/GrandTheftFocus
         package = grand-theft-focus; }
 
-      { # tiling window manager # TODO: ~/.config/paperwm ? or...
-        # https://github.com/paperwm/PaperWM
-        package = paperwm; }
+      #{ # tiling window manager # TODO: ~/.config/paperwm ? or...
+      #  # https://github.com/paperwm/PaperWM
+      #  package = paperwm; }
 
       { # cpu/mem/etc
         # https://github.com/corecoding/Vitals
@@ -75,16 +75,32 @@
     # discover settings paths with `dconf watch /` or `dconf dump /`
     "org/gnome/desktop" = {
       "interface/show-battery-percentage" = true;
-      "wm/preferences.resize-with-right-button" = true;
+      "wm/preferences/resize-with-right-button" = true;
     };
+
+    # Settings -> Keyboard -> Shortcuts
+    "org/gnome/desktop/wm/keybindings" = {
+      switch-applications = ["<Super>Tab"];
+      switch-windows = ["<Alt>Tab"];
+      switch-windows-backward = ["<Shift><Alt>Tab"];
+      begin-resize = ["<Super>r"];
+      begin-move = ["<Super>v"];
+      toggle-message-tray = ["<Super>m"];
+      toggle-fullscreen = ["<Super>f"];
+    };
+    "org/gnome/settings-daemon/plugins/media-keys" = {
+      magnifier = ["<Alt><Super>z"];
+    };
+    # switching ctrl and capslock can be done at a more fundamental level
+    # in system/custom.nix, but here instead for non-nixos installs.
+    "org/gnome/desktop/input-sources" = {
+      xkb-options = ["ctrl:swapcaps"];
+    };
+
     #"org/gnome/desktop/background" = {
     #  picture-uri = "file:///path/to/light.png";
     #  picture-uri-dark = "file:///path/to/dark.png";
     #};
-    #this is done at a more fundamental level in system/custom.nix
-    #"org/gnome/desktop/input-sources/xkb-options" = [
-    #  "ctrl:swapcaps"
-    #];
   };
 
 }
