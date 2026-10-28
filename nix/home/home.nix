@@ -7,8 +7,8 @@
     ./gui.nix
     ./config-links.nix
     ./flakes.nix
-    ./onlyoffice.nix
     ./activation.nix
+    ./copyfonts.nix
   ];
 
   home.username = username;

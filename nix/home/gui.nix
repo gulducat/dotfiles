@@ -6,7 +6,8 @@
     # english words
     calibre-no-speech # base calibre has a huge japanese tts lib...
     pandoc
-    onlyoffice-desktopeditors
+    #onlyoffice-desktopeditors
+    euro-office-desktopeditors
     libreoffice
     hunspell
     hunspellDicts.en_US
