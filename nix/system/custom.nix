@@ -14,7 +14,7 @@
     enable = true;
     clean.enable = true;
     clean.extraArgs = "--keep-since 4d --keep 3";
-    flake = "/home/koalia/dotfiles/nixos"; # sets NH_FLAKE var
+    flake = "/home/koalia/dotfiles/nix"; # sets NH_FLAKE var
   };
 
   environment.systemPackages = with pkgs; [

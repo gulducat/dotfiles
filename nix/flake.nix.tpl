@@ -5,6 +5,8 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    # current unstable breaks my power button = suspend; this is the last known-good rev.
+    nixpkgs-stable.url = "github:NixOS/nixpkgs/7fd4004d0511991fff3a0524856a9be09e28c5f0";
 
     home-manager = { inputs.nixpkgs.follows = "nixpkgs"; # share store
       url = "github:nix-community/home-manager";
@@ -15,7 +17,7 @@
     };
   };
 
-  outputs = inputs@{ nixpkgs, home-manager, ... }:
+  outputs = inputs@{ nixpkgs, nixpkgs-stable, home-manager, ... }:
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs {
@@ -31,7 +33,7 @@
     in
     {
       # nh os switch
-      nixosConfigurations.${hostname} = nixpkgs.lib.nixosSystem {
+      nixosConfigurations.${hostname} = nixpkgs-stable.lib.nixosSystem {
         inherit system;
         modules = [ ./system/configuration.nix ];
       };
