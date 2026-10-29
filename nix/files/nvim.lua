@@ -59,6 +59,10 @@ vim.api.nvim_create_autocmd("OptionSet", {
   callback = set_colorscheme,
 })
 
+-- indent-blankline indicators
+local ibl = require('ibl')
+ibl.setup()
+
 -- writer mode:
 -- remember: `:set spell`
 -- - youtube: rethinking neovim as a tool for writers
@@ -70,6 +74,7 @@ vim.api.nvim_create_autocmd('User', { pattern = 'GoyoEnter',
     vim.cmd.Limelight()
     vim.opt.signcolumn = 'no'
     vim.system({'tmux', 'set-option', 'status', 'off'})
+    ibl.update({enabled = false})
   end,
 })
 vim.api.nvim_create_autocmd('User', { pattern = 'GoyoLeave',
@@ -77,6 +82,7 @@ vim.api.nvim_create_autocmd('User', { pattern = 'GoyoLeave',
     vim.cmd(':Limelight!')
     vim.opt.signcolumn = 'auto'
     vim.system({'tmux', 'set-option', 'status', 'on'})
+    ibl.update({enabled = true})
   end,
 })
 
@@ -99,9 +105,6 @@ vim.api.nvim_create_autocmd('FileType', { pattern = 'text,markdown',
 })
 
 -- code
-
--- indent-blankline indicators
-require('ibl').setup()
 
 -- treesitter
 vim.api.nvim_create_autocmd('FileType', {
