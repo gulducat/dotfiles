@@ -17,6 +17,8 @@
 
       # display
 
+      alpha-nvim # splash screen: https://github.com/goolord/alpha-nvim
+
       onedarkpro-nvim # https://github.com/olimorris/onedarkpro.nvim/
       papercolor-theme-slim # https://github.com/pappasam/papercolor-theme-slim/
 
@@ -32,7 +34,14 @@
       # - https://github.com/folke/zen-mode.nvim
       # until then, limelight and goyo are reliable.
 
+      { # hotkey help pop-up: https://github.com/folke/which-key.nvim
+        plugin = which-key-nvim;
+        config = "require('which-key').setup({ delay = 800 })";
+      }
+
       indent-blankline-nvim # https://github.com/lukas-reineke/indent-blankline.nvim
+
+      nvim-autopairs # auto-close {} etc: https://github.com/windwp/nvim-autopairs
 
       # treesitter https://github.com/nvim-treesitter/nvim-treesitter
       # parsers:
@@ -55,6 +64,7 @@
       nerdtree # https://github.com/preservim/nerdtree/
 
       # https://github.com/nvim-telescope/telescope.nvim
+      # https://github.com/nvim-telescope/telescope.nvim/wiki/Extensions
       telescope-nvim
       plenary-nvim # core dependency
       telescope-fzf-native-nvim

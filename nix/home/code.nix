@@ -27,6 +27,8 @@
     #uv
     #godot
 
+    cargo rustc rust-analyzer
+
     # --- linting / scripting ---
     shellcheck
     #actionlint
