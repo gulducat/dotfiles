@@ -76,6 +76,7 @@ vim.g.limelight_paragraph_span = 1
 vim.api.nvim_create_autocmd('User', { pattern = 'GoyoEnter',
   callback = function()
     vim.cmd.Limelight()
+    vim.opt.showmode = false
     vim.opt.signcolumn = 'no'
     vim.system({'tmux', 'set-option', 'status', 'off'})
     ibl.update({enabled = false})
@@ -84,6 +85,7 @@ vim.api.nvim_create_autocmd('User', { pattern = 'GoyoEnter',
 vim.api.nvim_create_autocmd('User', { pattern = 'GoyoLeave',
   callback = function()
     vim.cmd(':Limelight!')
+    vim.opt.showmode = true
     vim.opt.signcolumn = 'auto'
     vim.system({'tmux', 'set-option', 'status', 'on'})
     ibl.update({enabled = true})
@@ -99,7 +101,8 @@ vim.opt.foldlevel = 2
 vim.opt.tabstop = 4
 
 -- cleaner formatting for writing prose
-vim.api.nvim_create_autocmd('FileType', { pattern = 'text,markdown',
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = { 'text', 'markdown' },
   callback = function()
     vim.cmd('PencilSoft')
     vim.opt.number = false
@@ -113,7 +116,7 @@ vim.api.nvim_create_autocmd('FileType', { pattern = 'text,markdown',
 
 -- treesitter
 vim.api.nvim_create_autocmd('FileType', {
-  pattern = { 'markdown', 'nix', 'lua', 'json', 'go', 'py', 'sh', 'bash', 'rs' },
+  pattern = { 'nix', 'lua', 'json', 'go', 'py', 'sh', 'bash', 'rs' },
   callback = function()
     vim.opt.foldmethod = "expr"
     vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
@@ -232,35 +235,43 @@ autocmd CursorHoldI,CursorHold * silent! update
 "autocmd ColorScheme * highlight Normal ctermbg=NONE guibg=282c34
 ]])
 
--- just picking something for now; more here: https://www.asciiart.eu/gallery
+-- based on: https://www.asciiart.eu/art/3fc3a30e2bc9a375
 local art = {
-	[[                                                                  ]],
-	[[     _/      _/                      _/      _/  _/               ]],
-	[[    _/_/    _/    _/_/      _/_/    _/      _/      _/_/_/  _/_/  ]],
-	[[   _/  _/  _/  _/_/_/_/  _/    _/  _/      _/  _/  _/    _/    _/ ]],
-	[[  _/    _/_/  _/        _/    _/    _/  _/    _/  _/    _/    _/  ]],
-	[[ _/      _/    _/_/_/    _/_/        _/      _/  _/    _/    _/   ]],
-	[[                                                                  ]],
-	[[]],
-	[[   .+------+     +------+     +------+     +------+     +------+.    ]],
-	[[ .' |    .'|    /|     /|     |      |     |\     |\    |`.    | `.  ]],
-	[[+---+--+'  |   +-+----+ |     +------+     | +----+-+   |  `+--+---+ ]],
-	[[|   |  |   |   | |    | |     |      |     | |    | |   |   |  |   | ]],
-	[[|  ,+--+---+   | +----+-+     +------+     +-+----+ |   +---+--+   | ]],
-	[[|.'    | .'    |/     |/      |      |      \|     \|    `. |   `. | ]],
-	[[+------+'      +------+       +------+       +------+      `+------+ ]]
+[[ ]],
+[[           -   _-                        ]],
+[[         (         )                     ]],
+[[     ,    (     ))   )                   ]],
+[[   (                   )       /\        ]],
+[[  (_      `___ -_   _-         \/        ]],
+[[                               ' +       ]],
+[[                              '   +      ]],
+[[                             '   +       ]],
+[[                           '      +      ]],
+[[                         '          +    ]],
+[[                       '               + ]],
+[[                     '                   ]],
+[[                  '                      ]],
+[[               '                         ]],
+[[            '                            ]],
+[[         '                               ]],
+[[  c  .'                                  ]],
+[[ <\\/                                    ]],
+[[  |\                                     ]],
+[[ / /                         ₙₑₒᵥᵢₘ      ]],
+[[ ]]
 }
 
 local dash = require("alpha.themes.dashboard")
 dash.section.header.val = art
 dash.section.buttons.val = {
-    dash.button("n", " " .. " New", ":Alpha <CR>"),
-    dash.button("fo", "󰥔 " .. " Recent", ":Telescope oldfiles <CR>"),
-    dash.button("fc", "󰊢 " .. " Changes", ":Telescope git_status <CR>"),
-    dash.button("ff", " " .. " Files", ":Telescope find_files <CR>"),
-    dash.button("fg", "󰍉 " .. " Words", ":Telescope live_grep <CR>"),
-    dash.button("t", " " .. " Tree", ":Alpha <CR>:NERDTreeToggle <CR>"),
-    dash.button("q", "󰌪 " .. " Quit", ":q <CR>"),
+  -- https://www.nerdfonts.com/cheat-sheet
+  dash.button("n",  " " .. " New",     ":Alpha <CR>"),
+  dash.button("fo", "󰥔 " .. " Recent",  ":Telescope oldfiles <CR>"),
+  dash.button("fc", "󰊢 " .. " Changes", ":Telescope git_status <CR>"),
+  dash.button("ff", " " .. " Files",   ":Telescope find_files <CR>"),
+  dash.button("fg", "󰍉 " .. " Words",   ":Telescope live_grep <CR>"),
+  dash.button("t",  "󰙅 " .. " Tree",    ":Alpha <CR>:NERDTreeToggle <CR>"),
+  dash.button("q",  "󰌪 " .. " Quit",    ":q <CR>"),
 }
---dash.section.buttons.opts.spacing = 0
+dash.section.buttons.opts.spacing = 0
 require("alpha").setup(dash.config)
