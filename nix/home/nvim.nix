@@ -60,8 +60,10 @@
 
       # navigation
 
-      # TODO: https://github.com/nvim-tree/nvim-tree.lua/ ? other?
-      nerdtree # https://github.com/preservim/nerdtree/
+      oil-nvim # edit filenames in a buffer # https://github.com/stevearc/oil.nvim
+
+      #nerdtree # https://github.com/preservim/nerdtree/
+      nvim-tree-lua # https://github.com/nvim-tree/nvim-tree.lua/
 
       # https://github.com/nvim-telescope/telescope.nvim
       # https://github.com/nvim-telescope/telescope.nvim/wiki/Extensions

@@ -24,23 +24,72 @@
 
 ]]
 
+local dash = require("alpha.themes.dashboard")
+dash.section.header.val = {
+-- inspired by: https://www.asciiart.eu/art/3fc3a30e2bc9a375
+[[           -   _-                        ]],
+[[         (         )                     ]],
+[[     ,    (     ))   )                   ]],
+[[   (                   )       /\        ]],
+[[  (_      `___ -_   _-         \/        ]],
+[[                               ' +       ]],
+[[                              '   +      ]],
+[[                             '   +       ]],
+[[                           '      +      ]],
+[[                         '          +    ]],
+[[                       '               + ]],
+[[                     '                   ]],
+[[                  '                      ]],
+[[               '                         ]],
+[[            '                            ]],
+[[         '                               ]],
+[[  c  .'                                  ]],
+[[ <\\/                                    ]],
+[[  |\                                     ]],
+[[ / /                         ₙₑₒᵥᵢₘ      ]],
+}
+dash.section.buttons.val = {
+  -- https://www.nerdfonts.com/cheat-sheet
+  dash.button("n",  " " .. " New",     ":Alpha <CR>"),
+  dash.button("fo", "󰥔 " .. " Recent",  ":Telescope oldfiles <CR>"),
+  dash.button("fc", "󰊢 " .. " Changes", ":Telescope git_status <CR>"),
+  dash.button("ff", " " .. " Files",   ":Telescope find_files <CR>"),
+  dash.button("fg", "󰍉 " .. " Words",   ":Telescope live_grep <CR>"),
+  dash.button("t",  "󰙅 " .. " Tree",    ":NvimTreeToggle <CR>"),
+  dash.button("q",  "󰜎 " .. " Quit",    ":q <CR>"),
+  --dash.button("ar", " " .. " Redraw",  ":AlphaRedraw <CR>"),
+}
+for _, btn in pairs(dash.section.buttons.val) do
+  btn.opts.width = 22 -- narrower than default (50)
+  btn.opts.cursor = -2 -- cursor to the left of menu items
+end
+dash.section.buttons.opts.spacing = 0 -- no blank line between menu items
+dash.config.layout = {
+  { type = "padding", val = math.max(1, math.min(20, -- clamp between 1 and 20
+    vim.api.nvim_win_get_height(0) - 40 -- win height minus ~size of art+menu
+  ))},
+  dash.section.header,
+  { type = "padding", val = 5 },
+  dash.section.buttons,
+}
+require("alpha").setup(dash.config)
+
 -- custom shortcuts
 
 -- <leader> = \ , so e.g. "\r" will reload this config
 vim.keymap.set('n', '<leader>r', function()
   vim.cmd('luafile ~/.config/nvim/lua/bespoke.lua')
   vim.notify('config reloaded!')
-end)
+end, { desc = 'Reload config' })
 
-vim.keymap.set('n', '<leader>tn', function() vim.cmd('tabnew') end)
+vim.keymap.set('n', '<C-t>', function() vim.cmd('tabnew') end, { desc = 'New tab' })
 
-vim.keymap.set('n', '<leader>w', function() vim.cmd.Goyo() end)
+vim.keymap.set('n', '<leader>w', function() vim.cmd.Goyo() end, { desc = 'Writer (zen) mode' })
 
-vim.keymap.set('n', '<C-n>', function() vim.cmd('NERDTree') end)
-vim.keymap.set('n', '<C-t>', function() vim.cmd('NERDTreeToggle') end)
-vim.keymap.set('n', '<C-f>', function() vim.cmd('NERDTreeFind') end)
+vim.keymap.set('n', '<leader>t', function() vim.cmd('NvimTreeToggle') end, { desc = 'File tree' })
 
 local scope = require('telescope.builtin')
+vim.keymap.set('n', '<leader>fs', scope.treesitter, { desc = 'Telescope symbols' })
 vim.keymap.set('n', '<leader>ff', scope.find_files, { desc = 'Telescope find files' })
 vim.keymap.set('n', '<leader>fo', scope.oldfiles, { desc = 'Telescope oldfiles (recent)' })
 vim.keymap.set('n', '<leader>fg', scope.live_grep, { desc = 'Telescope live grep' })
@@ -111,6 +160,48 @@ vim.api.nvim_create_autocmd('FileType', {
     vim.opt.foldmethod = 'manual'
   end
 })
+
+require('nvim-tree').setup({
+  -- based on @Lutalli: https://github.com/nvim-tree/nvim-tree.lua/wiki/Showcases
+  view = { cursorline = false },
+  renderer = {
+    icons = {
+      show = { hidden = true },
+      git_placement = "after",
+      symlink_arrow = " -> ",
+      glyphs = {
+        folder = {
+          arrow_closed = " ",
+          arrow_open = " ",
+          default = "",
+          open = "",
+          empty = "",
+          empty_open = "",
+          symlink = "",
+          symlink_open = ""
+        },
+        default = "󱓻",
+        symlink = "󱓻",
+        bookmark = "",
+        modified = "",
+        hidden = "󱙝",
+        git = {
+          unstaged = "×",
+          staged = "",
+          unmerged = "󰧾",
+          untracked = "",
+          renamed = "",
+          deleted = "",
+          ignored = "∅"
+        }
+      }
+    }
+  },
+  filters = { git_ignored = false },
+  sync_root_with_cwd = true
+})
+
+require('oil').setup({})
 
 -- code
 
@@ -234,44 +325,3 @@ autocmd CursorHoldI,CursorHold * silent! update
 "hi Normal ctermbg=NONE guibg=282c34
 "autocmd ColorScheme * highlight Normal ctermbg=NONE guibg=282c34
 ]])
-
--- based on: https://www.asciiart.eu/art/3fc3a30e2bc9a375
-local art = {
-[[ ]],
-[[           -   _-                        ]],
-[[         (         )                     ]],
-[[     ,    (     ))   )                   ]],
-[[   (                   )       /\        ]],
-[[  (_      `___ -_   _-         \/        ]],
-[[                               ' +       ]],
-[[                              '   +      ]],
-[[                             '   +       ]],
-[[                           '      +      ]],
-[[                         '          +    ]],
-[[                       '               + ]],
-[[                     '                   ]],
-[[                  '                      ]],
-[[               '                         ]],
-[[            '                            ]],
-[[         '                               ]],
-[[  c  .'                                  ]],
-[[ <\\/                                    ]],
-[[  |\                                     ]],
-[[ / /                         ₙₑₒᵥᵢₘ      ]],
-[[ ]]
-}
-
-local dash = require("alpha.themes.dashboard")
-dash.section.header.val = art
-dash.section.buttons.val = {
-  -- https://www.nerdfonts.com/cheat-sheet
-  dash.button("n",  " " .. " New",     ":Alpha <CR>"),
-  dash.button("fo", "󰥔 " .. " Recent",  ":Telescope oldfiles <CR>"),
-  dash.button("fc", "󰊢 " .. " Changes", ":Telescope git_status <CR>"),
-  dash.button("ff", " " .. " Files",   ":Telescope find_files <CR>"),
-  dash.button("fg", "󰍉 " .. " Words",   ":Telescope live_grep <CR>"),
-  dash.button("t",  "󰙅 " .. " Tree",    ":Alpha <CR>:NERDTreeToggle <CR>"),
-  dash.button("q",  "󰌪 " .. " Quit",    ":q <CR>"),
-}
-dash.section.buttons.opts.spacing = 0
-require("alpha").setup(dash.config)
