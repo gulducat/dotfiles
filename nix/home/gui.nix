@@ -7,7 +7,7 @@
     calibre-no-speech # base calibre has a huge japanese tts lib...
     pandoc
     #onlyoffice-desktopeditors
-    euro-office-desktopeditors
+    #euro-office-desktopeditors # gtk2... https://github.com/ONLYOFFICE/DesktopEditors/issues/2549
     libreoffice
     hunspell
     hunspellDicts.en_US

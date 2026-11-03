@@ -5,8 +5,8 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    # current unstable breaks my power button = suspend; this is the last known-good rev.
-    nixpkgs-stable.url = "github:NixOS/nixpkgs/7fd4004d0511991fff3a0524856a9be09e28c5f0";
+    # change this to a known-good sha if something goes wonky with an update.
+    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     home-manager = { inputs.nixpkgs.follows = "nixpkgs"; # share store
       url = "github:nix-community/home-manager";
