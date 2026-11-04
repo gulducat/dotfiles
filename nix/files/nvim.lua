@@ -24,6 +24,30 @@
 
 ]]
 
+-- custom shortcuts
+
+-- <leader> = \ , so e.g. "\r" will reload this config
+vim.keymap.set('n', '<leader>r', function()
+  vim.cmd('luafile ~/.config/nvim/lua/bespoke.lua')
+  vim.notify('config reloaded!')
+end, { desc = 'Reload config' })
+
+vim.keymap.set('n', '<C-t>', function() vim.cmd('tabnew') end, { desc = 'New tab' })
+
+vim.keymap.set('n', '<leader>w', function() vim.cmd.Goyo() end, { desc = 'Writer (zen) mode' })
+
+vim.keymap.set('n', '<leader>t', function() vim.cmd('NvimTreeToggle') end, { desc = 'File tree' })
+
+local scope = require('telescope.builtin')
+vim.keymap.set('n', '<leader>fs', scope.treesitter, { desc = 'Telescope symbols' })
+vim.keymap.set('n', '<leader>ff', scope.find_files, { desc = 'Telescope find files' })
+vim.keymap.set('n', '<leader>fo', scope.oldfiles, { desc = 'Telescope oldfiles (recent)' })
+vim.keymap.set('n', '<leader>fg', scope.live_grep, { desc = 'Telescope live grep' })
+vim.keymap.set('n', '<leader>fb', scope.buffers, { desc = 'Telescope buffers' })
+vim.keymap.set('n', '<leader>fh', scope.help_tags, { desc = 'Telescope help tags' })
+
+-- splash screen
+
 local dash = require("alpha.themes.dashboard")
 dash.section.header.val = {
 -- inspired by: https://www.asciiart.eu/art/3fc3a30e2bc9a375
@@ -74,72 +98,9 @@ dash.config.layout = {
 }
 require("alpha").setup(dash.config)
 
--- custom shortcuts
-
--- <leader> = \ , so e.g. "\r" will reload this config
-vim.keymap.set('n', '<leader>r', function()
-  vim.cmd('luafile ~/.config/nvim/lua/bespoke.lua')
-  vim.notify('config reloaded!')
-end, { desc = 'Reload config' })
-
-vim.keymap.set('n', '<C-t>', function() vim.cmd('tabnew') end, { desc = 'New tab' })
-
-vim.keymap.set('n', '<leader>w', function() vim.cmd.Goyo() end, { desc = 'Writer (zen) mode' })
-
-vim.keymap.set('n', '<leader>t', function() vim.cmd('NvimTreeToggle') end, { desc = 'File tree' })
-
-local scope = require('telescope.builtin')
-vim.keymap.set('n', '<leader>fs', scope.treesitter, { desc = 'Telescope symbols' })
-vim.keymap.set('n', '<leader>ff', scope.find_files, { desc = 'Telescope find files' })
-vim.keymap.set('n', '<leader>fo', scope.oldfiles, { desc = 'Telescope oldfiles (recent)' })
-vim.keymap.set('n', '<leader>fg', scope.live_grep, { desc = 'Telescope live grep' })
-vim.keymap.set('n', '<leader>fb', scope.buffers, { desc = 'Telescope buffers' })
-vim.keymap.set('n', '<leader>fh', scope.help_tags, { desc = 'Telescope help tags' })
-
 -- display
 
 vim.opt.winborder = 'solid' -- pop-up modals
-
--- auto light/dark mode
-local function set_colorscheme()
-  vim.cmd.colorscheme(
-    vim.o.background == "light" and "PaperColorSlimLight" or "onedark_vivid"
-  )
-end
-set_colorscheme()
-vim.api.nvim_create_autocmd("OptionSet", {
-  pattern = "background",
-  callback = set_colorscheme,
-})
-
--- indent-blankline indicators
-local ibl = require('ibl')
-ibl.setup()
-
--- writer mode:
--- remember: `:set spell`
--- - youtube: rethinking neovim as a tool for writers
-vim.g.goyo_width = 80
-vim.g.goyo_height = 95
-vim.g.limelight_paragraph_span = 1
-vim.api.nvim_create_autocmd('User', { pattern = 'GoyoEnter',
-  callback = function()
-    vim.cmd.Limelight()
-    vim.opt.showmode = false
-    vim.opt.signcolumn = 'no'
-    vim.system({'tmux', 'set-option', 'status', 'off'})
-    ibl.update({enabled = false})
-  end,
-})
-vim.api.nvim_create_autocmd('User', { pattern = 'GoyoLeave',
-  callback = function()
-    vim.cmd(':Limelight!')
-    vim.opt.showmode = true
-    vim.opt.signcolumn = 'auto'
-    vim.system({'tmux', 'set-option', 'status', 'on'})
-    ibl.update({enabled = true})
-  end,
-})
 
 vim.opt.linebreak = true
 vim.opt.number = true
@@ -148,18 +109,6 @@ vim.opt.colorcolumn = '81,101' -- line length indicators
 vim.opt.foldmethod = 'syntax'
 vim.opt.foldlevel = 2
 vim.opt.tabstop = 4
-
--- cleaner formatting for writing prose
-vim.api.nvim_create_autocmd('FileType', {
-  pattern = { 'text', 'markdown' },
-  callback = function()
-    vim.cmd('PencilSoft')
-    vim.opt.number = false
-    vim.opt.relativenumber = false
-    vim.opt.colorcolumn = '0'
-    vim.opt.foldmethod = 'manual'
-  end
-})
 
 require('nvim-tree').setup({
   -- based on @Lutalli: https://github.com/nvim-tree/nvim-tree.lua/wiki/Showcases
@@ -201,62 +150,13 @@ require('nvim-tree').setup({
   sync_root_with_cwd = true
 })
 
-require('oil').setup({})
-
 -- code
-
--- treesitter
-vim.api.nvim_create_autocmd('FileType', {
-  pattern = { 'nix', 'lua', 'json', 'go', 'py', 'sh', 'bash', 'rs' },
-  callback = function()
-    vim.opt.foldmethod = "expr"
-    vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
-    vim.treesitter.start()
- end,
-})
-
--- lil completion pop-up
-require('blink-cmp').setup({
-  -- not when i'm writing prose, please.
-  enabled = function() return not vim.tbl_contains({ 'text', 'markdown' }, vim.bo.filetype) end,
-  -- https://cmp.saghen.dev/configuration/general.html
-  completion = {
-    list = { selection = { preselect = true, auto_insert = false } },
-    documentation = { auto_show = true, auto_show_delay_ms = 500 },
-    ghost_text = { enabled = true },
-  },
-  signature = { enabled = true },
-})
-
-require('tiny-inline-diagnostic').setup({
-  preset = 'powerline',
-  options = {
-    multilines = {
-      enabled = true,
-      always_show = true,
-      severity = { vim.diagnostic.severity.ERROR },
-    },
-    show_source = {
-      enabled = true,
-    },
-  },
-})
-vim.diagnostic.config({ virtual_text = false }) -- Disable Neovim's default virtual text diagnostics
-
-require('telescope').setup({
-  extensions = {
-    ['ui-select'] = { require('telescope.themes').get_dropdown {} }
-  }
-})
-require('telescope').load_extension('ui-select')
 
 -- language servers
 vim.lsp.enable('nixd')
 vim.lsp.enable('ruff') -- python
 vim.lsp.enable('ts_ls') -- typescript
 vim.lsp.enable('rust_analyzer')
-
-require('nvim-autopairs').setup()
 
 -- neovim + lua for editing this very file
 require('lazydev').setup()

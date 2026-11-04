@@ -19,13 +19,71 @@
 
       alpha-nvim # splash screen: https://github.com/goolord/alpha-nvim
 
-      onedarkpro-nvim # https://github.com/olimorris/onedarkpro.nvim/
-      papercolor-theme-slim # https://github.com/pappasam/papercolor-theme-slim/
+      { # theme
+        # https://github.com/olimorris/onedarkpro.nvim/
+        plugin = onedarkpro-nvim;
+        config = ''
+        -- auto light/dark mode
+        local function set_colorscheme()
+          vim.cmd.colorscheme(
+            vim.o.background == "light" and "github_light" or "onedark_vivid"
+          )
+        end
+        set_colorscheme()
+        vim.api.nvim_create_autocmd("OptionSet", {
+          pattern = "background",
+          callback = set_colorscheme,
+        })
+        '';
+      }
+      github-nvim-theme # https://github.com/projekt0n/github-nvim-theme
+      #papercolor-theme-slim # https://github.com/pappasam/papercolor-theme-slim/
 
-      goyo-vim      # https://vimawesome.com/plugin/goyo-vim
       limelight-vim # https://github.com/junegunn/limelight.vim
-      # :PencilSoft allows j/k within long wrapped lines.
-      vim-pencil    # https://github.com/preservim/vim-pencil
+      { # https://vimawesome.com/plugin/goyo-vim
+        plugin = goyo-vim;
+        config = ''
+        vim.g.goyo_width = 80
+        vim.g.goyo_height = 95
+        vim.g.limelight_paragraph_span = 1
+        vim.api.nvim_create_autocmd('User', { pattern = 'GoyoEnter',
+          callback = function()
+            vim.cmd.Limelight()
+            vim.opt.showmode = false
+            vim.opt.signcolumn = 'no'
+            vim.system({'tmux', 'set-option', 'status', 'off'})
+            require('ibl').update({enabled = false})
+          end,
+        })
+        vim.api.nvim_create_autocmd('User', { pattern = 'GoyoLeave',
+          callback = function()
+            vim.cmd(':Limelight!')
+            vim.opt.showmode = true
+            vim.opt.signcolumn = 'auto'
+            vim.system({'tmux', 'set-option', 'status', 'on'})
+            require('ibl').update({enabled = true})
+          end,
+        })
+        '';
+      }
+      { # https://github.com/preservim/vim-pencil
+        # :PencilSoft allows j/k within long wrapped lines.
+        # attaching other writing-related things here, too.
+        plugin = vim-pencil;
+        config = ''
+        -- clean layout for writing prose
+        vim.api.nvim_create_autocmd('FileType', {
+          pattern = { 'text', 'markdown' },
+          callback = function()
+            vim.cmd('PencilSoft')
+            vim.opt.number = false
+            vim.opt.relativenumber = false
+            vim.opt.colorcolumn = '0'
+            vim.opt.foldmethod = 'manual'
+          end
+        })
+        '';
+      }
       vim-wordy     # https://github.com/preservim/vim-wordy
 
       # maybe one day folke will fix this bug:
@@ -39,35 +97,67 @@
         config = "require('which-key').setup({ delay = 800 })";
       }
 
-      indent-blankline-nvim # https://github.com/lukas-reineke/indent-blankline.nvim
+      { # https://github.com/lukas-reineke/indent-blankline.nvim
+        plugin = indent-blankline-nvim;
+        config = "require('ibl').setup()";
+      }
 
-      nvim-autopairs # auto-close {} etc: https://github.com/windwp/nvim-autopairs
+      { # auto-close brackets, etc: https://github.com/windwp/nvim-autopairs
+        plugin = nvim-autopairs; 
+        config = "require('nvim-autopairs').setup()";
+      }
 
       # treesitter https://github.com/nvim-treesitter/nvim-treesitter
       # parsers:
       # curl -Ls https://github.com/NixOS/nixpkgs/raw/refs/heads/nixos-26.05/pkgs/applications/editors/vim/plugins/nvim-treesitter/generated.nix | awk '/buildGrammar/ {print$1}'
-      (nvim-treesitter.withPlugins (p: [
-        p.nix p.lua
-        p.markdown
-        p.bash p.make
-        p.diff p.git_config
-        p.css p.html p.javascript
-        p.json p.toml p.yaml
-        p.go p.python p.rust p.typescript
-        p.dockerfile
-        p.godot_resource
-      ]))
+    {
+        plugin = (nvim-treesitter.withPlugins (p: [
+          p.nix p.lua
+          p.markdown
+          p.bash p.make
+          p.diff p.git_config
+          p.css p.html p.javascript
+          p.json p.toml p.yaml
+          p.go p.python p.rust p.typescript
+          p.dockerfile
+          p.godot_resource
+        ]));
+        config =  ''
+        vim.api.nvim_create_autocmd('FileType', {
+          pattern = { 'nix', 'lua', 'json', 'go', 'py', 'sh', 'bash', 'rs' },
+          callback = function()
+            vim.opt.foldmethod = "expr"
+            vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+            vim.treesitter.start()
+         end,
+        })
+        '';
+      }
 
       # navigation
 
-      oil-nvim # edit filenames in a buffer # https://github.com/stevearc/oil.nvim
+      { # edit filenames in a buffer # https://github.com/stevearc/oil.nvim
+        plugin = oil-nvim;
+        config = "require('oil').setup({})";
+      }
 
       #nerdtree # https://github.com/preservim/nerdtree/
       nvim-tree-lua # https://github.com/nvim-tree/nvim-tree.lua/
 
       # https://github.com/nvim-telescope/telescope.nvim
       # https://github.com/nvim-telescope/telescope.nvim/wiki/Extensions
-      telescope-nvim
+      {
+        plugin = telescope-nvim;
+        config = ''
+        local scope = require('telescope')
+        scope.setup({
+          extensions = {
+            ['ui-select'] = { require('telescope.themes').get_dropdown {} }
+          }
+        })
+        scope.load_extension('ui-select')
+        '';
+      }
       plenary-nvim # core dependency
       telescope-fzf-native-nvim
       telescope-ui-select-nvim
@@ -78,9 +168,43 @@
       nvim-lspconfig # https://github.com/neovim/nvim-lspconfig
       lazydev-nvim # https://github.com/folke/lazydev.nvim
 
-      tiny-inline-diagnostic-nvim # https://github.com/rachartier/tiny-inline-diagnostic.nvim
+      { # https://github.com/rachartier/tiny-inline-diagnostic.nvim
+        plugin = tiny-inline-diagnostic-nvim;
+        config = ''
+        require('tiny-inline-diagnostic').setup({
+          preset = 'powerline',
+          options = {
+            multilines = {
+              enabled = true,
+              always_show = true,
+              severity = { vim.diagnostic.severity.ERROR },
+            },
+            show_source = {
+              enabled = true,
+            },
+          },
+        })
+        -- Disable Neovim's default virtual text diagnostics
+        vim.diagnostic.config({ virtual_text = false })
+        '';
+      }
 
-      blink-cmp # https://github.com/saghen/blink.cmp
+      { # smol completion pop-up: https://github.com/saghen/blink.cmp
+        plugin = blink-cmp;
+        config = ''
+        require('blink-cmp').setup({
+          -- not when i'm writing prose, please.
+          enabled = function() return not vim.tbl_contains({ 'text', 'markdown' }, vim.bo.filetype) end,
+          -- https://cmp.saghen.dev/configuration/general.html
+          completion = {
+            list = { selection = { preselect = true, auto_insert = false } },
+            documentation = { auto_show = true, auto_show_delay_ms = 500 },
+            ghost_text = { enabled = true },
+          },
+          signature = { enabled = true },
+        })
+        '';
+      }
 
       gitsigns-nvim # https://github.com/lewis6991/gitsigns.nvim
 
