@@ -17,7 +17,7 @@ in
     "hunk/config.toml"     = "files/hunk.toml";
     "nvim/lua/bespoke.lua" = "files/nvim.lua";
     "starship.toml"        = "files/starship.toml";
-    "tmux/tmux.conf"       = "files/tmux.conf";
+    "tmux/bespoke.conf"    = "files/tmux.conf";
     "zed/keymap.json"      = "files/zed/keymap.json";
     "zed/settings.json"    = "files/zed/settings.json";
   };

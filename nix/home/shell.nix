@@ -32,10 +32,10 @@ in
 
   home.packages = with pkgs; [
       ghostty
-      tmux
 
       # basics
       lsof
+      unzip
 
       # fancy
       bat
@@ -58,6 +58,61 @@ in
       hc-install
       srt
   ];
+
+  programs.tmux = {
+    enable = true;
+
+    # writes config to ~/.config/tmux/
+    # https://nix-community.github.io/home-manager/options/home-manager/programs/tmux.html0
+    prefix = "C-a";
+    baseIndex = 1;
+    mouse = true;
+    keyMode = "vi";
+
+	# load a synlink'd conf for quickly iterating changes
+    extraConfig = "source-file ~/.config/tmux/bespoke.conf"; # files/tmux.conf
+
+    # plugins
+    sensibleOnTop = true; # https://github.com/tmux-plugins/tmux-sensible
+    # https://search.nixos.org/packages?channel=unstable&query=tmuxPlugins.
+    plugins = with pkgs.tmuxPlugins; [
+      #sensible
+      pain-control # https://github.com/tmux-plugins/tmux-pain-control
+      resurrect    # https://github.com/tmux-plugins/tmux-resurrect
+      #continuum   # TODO? needs status-right... https://github.com/tmux-plugins/tmux-continuum
+
+      tmux-fzf # prefix-F fuzzy tmux functions: https://github.com/sainnhe/tmux-fzf
+      { # prefix-? fuzzy scrollback search: https://github.com/roosta/tmux-fuzzback
+        plugin = fuzzback;
+        extraConfig = ''
+        set -g @fuzzback-popup 1
+        set -g @fuzzback-popup-size '80%'
+        '';
+      }
+      {
+        plugin = extrakto; # prefix-tab fuzzy-fill text on screen: https://github.com/laktak/extrakto
+        extraConfig = ''
+        set -g @extrakto_popup_size "60%" # default 90%
+        set -g @extrakto_fzf_layout "reverse" # top-down
+        '';
+      }
+
+      { # https://github.com/niksingh710/minimal-tmux-status
+        plugin = minimal-tmux-status;
+        extraConfig = ''
+        set -g @minimal-tmux-indicator true
+        set -g @minimal-tmux-indicator-str "   "
+        set -g @minimal-tmux-status "top"
+        set -g @minimal-tmux-right false
+        #set -g @minimal-tmux-left false
+        set -g @minimal-tmux-use-arrow true
+        set -g @minimal-tmux-right-arrow ""
+        set -g @minimal-tmux-left-arrow ""
+        '';
+      }
+    ];
+	# TODO: tmuxp.enable? https://github.com/tmux-python/tmuxp
+  };
 
   # fancy ctrl+r history
   # https://docs.atuin.sh/latest/configuration/config/

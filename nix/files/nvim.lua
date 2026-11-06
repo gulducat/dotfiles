@@ -29,7 +29,7 @@
 -- <leader> = \ , so e.g. "\r" will reload this config
 vim.keymap.set('n', '<leader>r', function()
   vim.cmd('luafile ~/.config/nvim/lua/bespoke.lua')
-  vim.notify('config reloaded!')
+  vim.notify('bespoke nvim config reloaded!')
 end, { desc = 'Reload config' })
 
 vim.keymap.set('n', '<C-t>', function() vim.cmd('tabnew') end, { desc = 'New tab' })

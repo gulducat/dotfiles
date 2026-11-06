@@ -7,7 +7,6 @@
     ./gui.nix
     ./config-links.nix
     ./flakes.nix
-    ./activation.nix
     ./copyfonts.nix
   ];
 
