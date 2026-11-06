@@ -36,6 +36,13 @@ untracked = ""
 format = ' [$symbol$branch(:$remote_branch)]($style) '
 #truncation_length = 20
 
+[nix_shell]
+style = 'blue'
+
+[package]
+format = '[pkg=($version )]($style)'
+style = 'dimmed 208'
+
 [golang]
 format = '[go=($version )]($style)'
 style = 'dimmed dimmed cyan'
@@ -56,4 +63,8 @@ style = 'dimmed purple'
 [vagrant]
 disabled = true
 #symbol = "V"
+
+[rust]
+format = '[rust=($version )]($style)'
+style = 'dimmed red'
 

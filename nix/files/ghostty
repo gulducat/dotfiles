@@ -12,7 +12,7 @@ font-size = 13
 font-family = "JetBrainsMono Nerd Font"
 # ghostty +list-themes
 # "one double dark" matches nvim's "onedarkpro"
-theme = light:Zenwritten Light,dark:One Double Dark
+theme = light:GitHub Light Default,dark:One Double Dark
 window-theme = ghostty
 gtk-titlebar = false 
 #window-decoration = false 

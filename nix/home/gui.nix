@@ -66,6 +66,10 @@
       { # cpu/mem/etc
         # https://github.com/corecoding/Vitals
         package = vitals; }
+
+      { # https://github.com/ngthanhbinh85/shade-inactive-windows-reborn
+        package = shade-inactive-windows-reborn; }
+
     ];
   };
 
@@ -78,16 +82,22 @@
       "wm/preferences/resize-with-right-button" = true;
     };
 
-    # Settings -> Keyboard -> Shortcuts
     "org/gnome/desktop/wm/keybindings" = {
+      begin-move = ["<Super>v"];
+      begin-resize = ["<Super>r"];
       switch-applications = ["<Super>Tab"];
       switch-windows = ["<Alt>Tab"];
       switch-windows-backward = ["<Shift><Alt>Tab"];
-      begin-resize = ["<Super>r"];
-      begin-move = ["<Super>v"];
-      toggle-message-tray = ["<Super>m"];
+      toggle-on-all-workspaces = ["<Alt><Super>a"];
       toggle-fullscreen = ["<Super>f"];
     };
+    "org/gnome/shell/keybindings" = {
+      toggle-message-tray = ["<Super>m"];
+    };
+    "org/gnome/shell/app-switcher" = {
+      current-workspace-only = false;
+    };
+
     "org/gnome/settings-daemon/plugins/media-keys" = {
       magnifier = ["<Alt><Super>z"];
     };
@@ -95,6 +105,12 @@
     # in system/custom.nix, but here instead for non-nixos installs.
     "org/gnome/desktop/input-sources" = {
       xkb-options = ["ctrl:swapcaps"];
+    };
+
+    "org/gnome/shell/extensions/shade-inactive-windows-reborn" = {
+      shade-level = 40;
+      shadow-width = 80;
+      shadow-opacity = 80;
     };
 
     #"org/gnome/desktop/background" = {
