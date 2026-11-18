@@ -63,11 +63,13 @@ in
     enable = true;
 
     # writes config to ~/.config/tmux/
-    # https://nix-community.github.io/home-manager/options/home-manager/programs/tmux.html0
+    # https://nix-community.github.io/home-manager/options/home-manager/programs/tmux.html
     prefix = "C-a";
     baseIndex = 1;
     mouse = true;
     keyMode = "vi";
+    focusEvents = true;
+    terminal = "tmux-256color";
 
 	# load a synlink'd conf for quickly iterating changes
     extraConfig = "source-file ~/.config/tmux/bespoke.conf"; # files/tmux.conf

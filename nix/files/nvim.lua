@@ -39,12 +39,27 @@ vim.keymap.set('n', '<leader>w', function() vim.cmd.Goyo() end, { desc = 'Writer
 vim.keymap.set('n', '<leader>t', function() vim.cmd('NvimTreeToggle') end, { desc = 'File tree' })
 
 local scope = require('telescope.builtin')
+vim.keymap.set('n', '<leader>f.', scope.builtin, { desc = 'Telescope menu' })
 vim.keymap.set('n', '<leader>fs', scope.treesitter, { desc = 'Telescope symbols' })
 vim.keymap.set('n', '<leader>ff', scope.find_files, { desc = 'Telescope find files' })
 vim.keymap.set('n', '<leader>fo', scope.oldfiles, { desc = 'Telescope oldfiles (recent)' })
+vim.keymap.set('n', '<leader>fc', scope.git_status, { desc = 'Telescope changes (git status)' })
 vim.keymap.set('n', '<leader>fg', scope.live_grep, { desc = 'Telescope live grep' })
 vim.keymap.set('n', '<leader>fb', scope.buffers, { desc = 'Telescope buffers' })
+vim.keymap.set('n', '<leader>fj', scope.jumplist, { desc = 'Telescope jumplist (cursor history)' })
 vim.keymap.set('n', '<leader>fh', scope.help_tags, { desc = 'Telescope help tags' })
+
+local git = require('gitsigns')
+vim.keymap.set('n', '<leader>g.', vim.cmd.Gitsigns, { desc = 'gitsigns menu' })
+vim.keymap.set('n', '<leader>gb', git.blame, { desc = 'git blame' })
+vim.keymap.set('n', '<leader>gd', git.diffthis, { desc = 'git diff' })
+vim.keymap.set('n', '<leader>gl', git.toggle_linehl, { desc = 'toggle inline diff' })
+vim.keymap.set('n', '<leader>gh', git.preview_hunk_inline, { desc = 'preview hunk' })
+vim.keymap.set('n', '<leader>gn', function() git.nav_hunk('next') end, { desc = 'next hunk' })
+vim.keymap.set('n', '<leader>gp', function() git.nav_hunk('prev') end, { desc = 'prev hunk' })
+vim.keymap.set('n', '<leader>gs', function() git.select_hunk() git.stage_hunk() end, { desc = 'stage/unstage hunk' })
+vim.keymap.set('v', '<leader>gs', git.stage_hunk, { desc = 'stage/unstage hunk' })
+vim.keymap.set('n', '<leader>gr', git.reset_hunk, { desc = 'reset hunk' })
 
 -- splash screen
 
