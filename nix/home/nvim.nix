@@ -33,6 +33,7 @@
         vim.api.nvim_create_autocmd("OptionSet", {
           pattern = "background",
           callback = set_colorscheme,
+          nested = true, -- do subsequent theming, like indent-blankline
         })
         '';
       }
