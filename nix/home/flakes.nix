@@ -1,6 +1,6 @@
 { inputs, pkgs, ... }:
 {
-  home.packages = with pkgs; [
+  home.packages = [
       inputs.crit.packages.${pkgs.system}.default
   ];
 }

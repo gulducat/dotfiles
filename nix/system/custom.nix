@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{ lib, pkgs, ... }: {
 
   # also, home manager: https://nix-community.github.io/home-manager/installation/standalone.html
 
@@ -17,10 +17,15 @@
     flake = "/home/koalia/dotfiles/nix"; # sets NH_FLAKE var
   };
 
+  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+    "1password" "vivaldi"
+  ];
+
   environment.systemPackages = with pkgs; [
     fastfetch
     tmux
 
+    dig
     git
     gnumake
     tree

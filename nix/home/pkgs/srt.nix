@@ -17,7 +17,7 @@ buildNpmPackage(finalAttrs: {
   meta = with lib; {
     description = "convenience wrapper around bwrap";
     homepage = "https://github.com/anthropics/sandbox-runtime";
-    license = licenses.apache20;
+    license = licenses.asl20; # apache 2.0
     mainProgram = "srt";
   };
 })

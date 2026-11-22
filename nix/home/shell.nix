@@ -36,6 +36,7 @@ in
       # basics
       lsof
       unzip
+      wl-clipboard
 
       # fancy
       bat

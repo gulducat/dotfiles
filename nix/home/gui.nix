@@ -1,5 +1,17 @@
-{ pkgs, ... }:
+{ lib, pkgs, ... }:
 {
+  # explicit unfree list
+  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+    "corefonts"
+    "discord" "discord-unwrapped"
+    "slack"
+    "spotify"
+    "vivaldi"
+    "zoom"
+    # seems weird to need this one, but ok.
+    "cheatsheet.nvim"
+  ];
+
   home.packages = with pkgs; [
     # TODO: dropbox
 
@@ -26,17 +38,15 @@
     slack
     zoom-us
 
-    # misc GUI
-    vivaldi
+    # media
+    qbittorrent
     spotify
+    vlc
+
+    # misc GUI
+    firefox
+    vivaldi
   ];
-
-  # https://github.com/nix-community/home-manager/tree/master/modules/programs
-
-  programs.firefox.enable = true;
-
-  # spotify, vivaldi, ...
-  nixpkgs.config.allowUnfree = true;
 
   # https://nix-community.github.io/home-manager/options/home-manager/programs/gnome-shell.html
   # equiv: dconf.settings."org/gnome/shell"
