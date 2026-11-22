@@ -40,6 +40,11 @@
       github-nvim-theme # https://github.com/projekt0n/github-nvim-theme
       #papercolor-theme-slim # https://github.com/pappasam/papercolor-theme-slim/
 
+      { plugin = cheatsheet-nvim;
+        # https://github.com/sudormrfbin/cheatsheet.nvim/
+        config = "require('cheatsheet').setup()";
+      }
+
       limelight-vim # https://github.com/junegunn/limelight.vim
       { # https://vimawesome.com/plugin/goyo-vim
         plugin = goyo-vim;
@@ -143,15 +148,67 @@
       }
 
       #nerdtree # https://github.com/preservim/nerdtree/
-      nvim-tree-lua # https://github.com/nvim-tree/nvim-tree.lua/
+      { # https://github.com/nvim-tree/nvim-tree.lua/
+        plugin = nvim-tree-lua;
+        # based on @Lutalli: https://github.com/nvim-tree/nvim-tree.lua/wiki/Showcases
+        config = ''
+        require('nvim-tree').setup({
+          view = { cursorline = false },
+          renderer = {
+            icons = {
+              show = { hidden = true },
+              git_placement = "after",
+              symlink_arrow = " -> ",
+              glyphs = {
+                folder = {
+                  arrow_closed = " ",
+                  arrow_open = " ",
+                  default = "",
+                  open = "",
+                  empty = "",
+                  empty_open = "",
+                  symlink = "",
+                  symlink_open = ""
+                },
+                default = "󱓻",
+                symlink = "󱓻",
+                bookmark = "",
+                modified = "",
+                hidden = "󱙝",
+                git = {
+                  unstaged = "×",
+                  staged = "",
+                  unmerged = "󰧾",
+                  untracked = "",
+                  renamed = "",
+                  deleted = "",
+                  ignored = "∅"
+                }
+              }
+            }
+          },
+          filters = { git_ignored = false },
+          sync_root_with_cwd = true
+        })
+        '';
+	  }
 
-      # https://github.com/nvim-telescope/telescope.nvim
-      # https://github.com/nvim-telescope/telescope.nvim/wiki/Extensions
-      {
-        plugin = telescope-nvim;
+      { plugin = telescope-nvim;
+        # https://github.com/nvim-telescope/telescope.nvim
+        # https://github.com/nvim-telescope/telescope.nvim/wiki/Extensions
+        # https://github.com/nvim-telescope/telescope-ui-select.nvim
         config = ''
         local scope = require('telescope')
         scope.setup({
+          defaults = {
+            prompt_prefix = '❯ ',
+            selection_caret = '➜ ',
+            sorting_strategy = 'ascending',
+            layout_config = {
+              prompt_position = 'top',
+            },
+            borderchars = { "─", "", "", "", "", "", "", "" },
+          },
           extensions = {
             ['ui-select'] = { require('telescope.themes').get_dropdown {} }
           }

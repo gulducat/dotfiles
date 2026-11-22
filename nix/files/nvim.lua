@@ -1,5 +1,7 @@
 --[[ fancy hotkey cheat-sheet:
 
+\? -- :Cheatsheet -- lots of cheats
+
 :help gc -- comment/uncomment lines
 :help > -- indent line(s)
 
@@ -23,6 +25,14 @@
  - `<C-w>d` shows diagnostic at cursor in a floating window.fault|
 
 ]]
+
+-----------
+-- input --
+-----------
+
+vim.opt.mouse = 'a'
+
+vim.opt.clipboard = 'unnamedplus' -- always use system clipboard for yank/put
 
 -- custom shortcuts
 
@@ -60,6 +70,25 @@ vim.keymap.set('n', '<leader>gp', function() git.nav_hunk('prev') end, { desc = 
 vim.keymap.set('n', '<leader>gs', function() git.select_hunk() git.stage_hunk() end, { desc = 'stage/unstage hunk' })
 vim.keymap.set('v', '<leader>gs', git.stage_hunk, { desc = 'stage/unstage hunk' })
 vim.keymap.set('n', '<leader>gr', git.reset_hunk, { desc = 'reset hunk' })
+
+-------------
+-- display --
+-------------
+
+vim.opt.termguicolors = true
+vim.opt.shortmess = 'aW' -- 'short message'
+vim.opt.winborder = 'solid' -- little pop-up modals
+
+vim.opt.linebreak = true
+vim.opt.number = true
+vim.opt.relativenumber = true
+vim.opt.colorcolumn = '81,101' -- line length indicators
+vim.opt.foldmethod = 'syntax'
+vim.opt.foldlevel = 2
+
+vim.opt.expandtab = true
+vim.opt.shiftwidth = 4
+vim.opt.tabstop = 4
 
 -- splash screen
 
@@ -113,59 +142,9 @@ dash.config.layout = {
 }
 require("alpha").setup(dash.config)
 
--- display
-
-vim.opt.winborder = 'solid' -- pop-up modals
-
-vim.opt.linebreak = true
-vim.opt.number = true
-vim.opt.relativenumber = true
-vim.opt.colorcolumn = '81,101' -- line length indicators
-vim.opt.foldmethod = 'syntax'
-vim.opt.foldlevel = 2
-vim.opt.tabstop = 4
-
-require('nvim-tree').setup({
-  -- based on @Lutalli: https://github.com/nvim-tree/nvim-tree.lua/wiki/Showcases
-  view = { cursorline = false },
-  renderer = {
-    icons = {
-      show = { hidden = true },
-      git_placement = "after",
-      symlink_arrow = " -> ",
-      glyphs = {
-        folder = {
-          arrow_closed = " ",
-          arrow_open = " ",
-          default = "",
-          open = "",
-          empty = "",
-          empty_open = "",
-          symlink = "",
-          symlink_open = ""
-        },
-        default = "󱓻",
-        symlink = "󱓻",
-        bookmark = "",
-        modified = "",
-        hidden = "󱙝",
-        git = {
-          unstaged = "×",
-          staged = "",
-          unmerged = "󰧾",
-          untracked = "",
-          renamed = "",
-          deleted = "",
-          ignored = "∅"
-        }
-      }
-    }
-  },
-  filters = { git_ignored = false },
-  sync_root_with_cwd = true
-})
-
--- code
+----------
+-- code --
+----------
 
 -- language servers
 vim.lsp.enable('nixd')
@@ -218,25 +197,13 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   end
 })
 
--- old school
-vim.cmd([[
+vim.cmd([[ " old school, kinda hard to replicate in lua
 
 " <Ctrl-l> redraws the screen and removes any search highlighting.
 nnoremap <silent> <C-l> :nohl<CR><C-l>
-
-set mouse=a
-
-" always use system clipboard for yank/put
-set clipboard+=unnamedplus
-
-set termguicolors
-
-set shortmess=aW " 'short message'
 
 " auto-save modified buffer during idle after 'updatetime'
 " has elapsed (default 4 sec)
 autocmd CursorHoldI,CursorHold * silent! update
 
-"hi Normal ctermbg=NONE guibg=282c34
-"autocmd ColorScheme * highlight Normal ctermbg=NONE guibg=282c34
 ]])
