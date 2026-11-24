@@ -48,9 +48,6 @@
     telemetry.mode = "local";
   };
 
-  # zed gui needs this... ???
-  targets.genericLinux.nixGL.vulkan.enable = true;
-
   # https://wiki.nixos.org/wiki/Zed
   programs.zed-editor = {
    enable = true;

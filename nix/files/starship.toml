@@ -65,6 +65,9 @@ disabled = true
 #symbol = "V"
 
 [rust]
-format = '[rust=($version )]($style)'
+format = '[rs=($version )]($style)'
 style = 'dimmed red'
 
+[ruby]
+format = '[rb=($version )]($style)'
+style = 'dimmed red'

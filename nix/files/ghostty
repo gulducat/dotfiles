@@ -8,7 +8,7 @@
 ##custom-shader = shaders/cursor_warp.glsl
 ##custom-shader = shaders/cursor-ripple_cursor.glsl
 
-font-size = 13
+font-size = 12
 font-family = "JetBrainsMono Nerd Font"
 # ghostty +list-themes
 # "one double dark" matches nvim's "onedarkpro"
@@ -25,26 +25,20 @@ window-height = 40
 window-padding-x = 15
 window-padding-y = 10,0
 
-# tmux-style panes
-#keybind = ctrl+a>n=new_window
-#keybind = ctrl+a>c=new_tab
-#keybind = ctrl+a>n=next_tab
-#keybind = ctrl+a>p=previous_tab
-#keybind = ctrl+a>shift+'=new_split:down
-#keybind = ctrl+a>-=new_split:down
-#keybind = ctrl+a>shift+5=new_split:right
-#keybind = ctrl+a>shift+\=new_split:right
-## goto left/right/top/bottom are weird compared to tmux
-## https://github.com/ghostty-org/ghostty/issues/524
-## also the config doc doesn't include the valid directions:
-## https://ghostty.org/docs/config/keybind/reference#goto_split
-#keybind = ctrl+a>h=goto_split:left
-#keybind = ctrl+a>j=goto_split:bottom
-#keybind = ctrl+a>k=goto_split:top
-#keybind = ctrl+a>l=goto_split:right
-#keybind = ctrl+a>shift+h=resize_split:left,40
-#keybind = ctrl+a>shift+j=resize_split:down,40
-#keybind = ctrl+a>shift+k=resize_split:up,40
-#keybind = ctrl+a>shift+l=resize_split:right,40
-#keybind = ctrl+a>equal=equalize_splits
-#keybind = ctrl+a>z=toggle_split_zoom
+# wipe goto_tab keys
+keybind = alt+digit_1=unbind
+keybind = alt+digit_2=unbind
+keybind = alt+digit_3=unbind
+keybind = alt+digit_4=unbind
+keybind = alt+digit_5=unbind
+keybind = alt+digit_6=unbind
+keybind = alt+digit_7=unbind
+keybind = alt+digit_8=unbind
+keybind = alt+1=unbind
+keybind = alt+2=unbind
+keybind = alt+3=unbind
+keybind = alt+4=unbind
+keybind = alt+5=unbind
+keybind = alt+6=unbind
+keybind = alt+7=unbind
+keybind = alt+8=unbind

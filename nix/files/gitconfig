@@ -8,7 +8,9 @@
 	co = checkout
 	dc = diff --cached
 	br = branch --show-current
-	l = log --graph --format='%C(auto)%cs %h %m %Cgreen%s'
+	# date <yellow>sha <green>msg <blue>author-name
+	# for colors: man git-config 1
+	l = log --graph --format='%C(auto)%cs %h %m %C(green)%s %C(blue)%an'
 
 [core]
 	excludesFile = ~/.gitignore

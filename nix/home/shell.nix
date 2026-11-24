@@ -19,8 +19,6 @@ in
     enable = true;
     profileExtra = "";
     bashrcExtra = ''
-      source ~/.nix-profile/etc/profile.d/nix.sh # TODO: should not need this.
-
       if [ -d ~/.bashrc.d ]; then
         for rc in ~/.bashrc.d/*.sh; do
           [ -f "$rc" ] && . "$rc"
@@ -30,11 +28,15 @@ in
     '';
   };
 
+  # link ghostty's user service into systemd's search path for GNOME/D-Bus
+  systemd.user.packages = [ pkgs.ghostty ];
+
   home.packages = with pkgs; [
       ghostty
 
       # basics
       lsof
+      socat
       unzip
       wl-clipboard
 
@@ -61,6 +63,8 @@ in
   ];
 
   programs.tmux = {
+    # writes to ~/.config/tmux/
+    # https://nix-community.github.io/home-manager/options/home-manager/programs/tmux.html
     enable = true;
 
     # writes config to ~/.config/tmux/
@@ -70,9 +74,10 @@ in
     mouse = true;
     keyMode = "vi";
     focusEvents = true;
+    # particularly needed for programs that detect os light/dark
     terminal = "tmux-256color";
 
-	# load a synlink'd conf for quickly iterating changes
+    # load a synlink'd conf for quickly iterating changes
     extraConfig = "source-file ~/.config/tmux/bespoke.conf"; # files/tmux.conf
 
     # plugins
@@ -127,6 +132,7 @@ in
       show_tabs = false;
       enter_accept = true;
       tmux.enabled = true;
+      ai.enabled = false;
     };
     forceOverwriteSettings = true;
   };

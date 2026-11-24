@@ -118,12 +118,13 @@ dash.section.header.val = {
 }
 dash.section.buttons.val = {
   -- https://www.nerdfonts.com/cheat-sheet
-  dash.button("n",  " " .. " New",     ":Alpha <CR>"),
-  dash.button("fo", "󰥔 " .. " Recent",  ":Telescope oldfiles <CR>"),
-  dash.button("fc", "󰊢 " .. " Changes", ":Telescope git_status <CR>"),
-  dash.button("ff", " " .. " Files",   ":Telescope find_files <CR>"),
-  dash.button("fg", "󰍉 " .. " Words",   ":Telescope live_grep <CR>"),
-  dash.button("t",  "󰙅 " .. " Tree",    ":NvimTreeToggle <CR>"),
+  dash.button("i",  " " .. " New",     ":Alpha <CR> :startinsert <CR>"), -- TODO: not quite
+  dash.button("\\fo", "󰥔 " .. " Recent",  ":Telescope oldfiles <CR>"),
+  dash.button("\\fj", " " .. " History", ":Telescope jumplist <CR>"),
+  dash.button("\\fc", "󰊢 " .. " Changes", ":Telescope git_status <CR>"),
+  dash.button("\\ff", " " .. " Files",   ":Telescope find_files <CR>"),
+  dash.button("\\fg", "󰍉 " .. " Words",   ":Telescope live_grep <CR>"),
+  dash.button("\\t",  "󰙅 " .. " Tree",    ":NvimTreeToggle <CR>"),
   dash.button("q",  "󰜎 " .. " Quit",    ":q <CR>"),
   --dash.button("ar", " " .. " Redraw",  ":AlphaRedraw <CR>"),
 }
