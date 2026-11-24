@@ -1,3 +1,4 @@
+# nix-shell -p git -p gnumake
 # git clone https://github.com/gulducat/dotfiles.git ~/dotfiles
 # cd ~/dotfiles/nix
 # rm flake.nix system/hardware-configuration.nix
@@ -6,9 +7,6 @@
 # make
 # nh os switch
 
-# ultimately this in ~/.config/nix/nix.conf, but we're bootstrappin
-NIX := nix --extra-experimental-features "nix-command flakes"
-
 # robot says this is more robust than $(USER)
 CUR_USER := $(shell id -un)
 HOST_NAME := $(shell uname -n)
@@ -16,7 +14,12 @@ HOST_NAME := $(shell uname -n)
 # let `nh` run from anywhere
 export NH_FLAKE := $(PWD)
 
-default: flake.nix switch
+default: nix-config flake.nix switch
+
+nix-config:
+	echo 'experimental-features = nix-command flakes' > nix-config
+	mkdir -p ~/.config/nix
+	cp nix-config ~/.config/nix/nix.conf
 
 flake.nix: flake.nix.tpl
 	sed \
@@ -32,20 +35,20 @@ switch:
 	@if command -v nh >/dev/null 2>&1; then \
 		nh home switch; \
 	else \
-		$(NIX) run home-manager/master -- switch --flake .#$(CUR_USER); \
+		nix run home-manager/master -- switch --flake .#$(CUR_USER); \
 	fi
 
 build:
 	home-manager --flake . build
 
 check:
-	$(NIX) flake check --no-build
+	nix flake check --no-build
 
 update:
-	$(NIX) flake update
+	nix flake update
 
 gc:
-	$(NIX) store gc
+	nix store gc
 
 clean:
 	nh clean all

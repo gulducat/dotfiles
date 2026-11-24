@@ -35,6 +35,8 @@ in
       ghostty
 
       # basics
+      git
+      gnumake
       lsof
       socat
       unzip

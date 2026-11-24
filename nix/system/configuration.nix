@@ -52,6 +52,9 @@
     variant = "";
   };
 
+  # Fingerprint service
+  services.fprintd.enable = true;
+
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
