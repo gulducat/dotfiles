@@ -58,6 +58,7 @@
 
   # https://nix-community.github.io/home-manager/options/home-manager/programs/gnome-shell.html
   # equiv: dconf.settings."org/gnome/shell"
+  # main advantage over dconf is pkgs instead of only extension id strings.
   programs.gnome-shell = {
     enable = true;
     # https://search.nixos.org/packages?channel=unstable&query=gnomeExtensions.
@@ -100,6 +101,21 @@
       "wm/preferences/resize-with-right-button" = true;
     };
 
+    "org/gnome/shell" = {
+      favorite-apps = [
+        "slack.desktop"
+        "vivaldi-stable.desktop"
+        "com.mitchellh.ghostty.desktop"
+        "dev.zed.Zed.desktop"
+      ];
+    };
+
+    "org/gnome/shell/app-switcher" = {
+      current-workspace-only = false;
+    };
+
+    # keyboard
+
     "org/gnome/desktop/wm/keybindings" = {
       begin-move = ["<Super>v"];
       begin-resize = ["<Super>r"];
@@ -112,10 +128,6 @@
     "org/gnome/shell/keybindings" = {
       toggle-message-tray = ["<Super>m"];
     };
-    "org/gnome/shell/app-switcher" = {
-      current-workspace-only = false;
-    };
-
     "org/gnome/settings-daemon/plugins/media-keys" = {
       magnifier = ["<Alt><Super>z"];
     };
@@ -125,10 +137,20 @@
       xkb-options = ["ctrl:swapcaps"];
     };
 
+    # extensions
+
+    "org/gnome/shell/extensions/appindicator" = {
+      compact-mode-enabled = false;
+      icon-size = 18;
+    };
     "org/gnome/shell/extensions/shade-inactive-windows-reborn" = {
       shade-level = 40;
       shadow-width = 80;
       shadow-opacity = 80;
+    };
+    "org/gnome/shell/extensions/vitals" = {
+      hot-sensors = [ "_processor_usage_" "_memory_usage_" ];
+      icon-style = 1; # "gnome" style
     };
 
     #"org/gnome/desktop/background" = {
