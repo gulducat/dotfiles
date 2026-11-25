@@ -77,7 +77,7 @@
   users.users."koalia" = {
     isNormalUser = true;
     description = "koalia";
-    extraGroups = [ "networkmanager" "wheel" "nixbld" ];
+    extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
     #  thunderbird
     ];

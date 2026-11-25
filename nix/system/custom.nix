@@ -1,5 +1,7 @@
 { lib, pkgs, ... }: {
 
+  nix.settings.trusted-users = [ "root" "koalia" "dbennett" ];
+
   # also, home manager: https://nix-community.github.io/home-manager/installation/standalone.html
 
   nix.settings.auto-optimise-store = true;
