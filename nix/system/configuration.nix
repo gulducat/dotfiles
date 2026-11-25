@@ -1,14 +1,17 @@
+# this file should match very closely what the installer puts in
+# /etc/nixos/configuration.nix
+
 # Edit this configuration file to define what should be installed on
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ ... }:
+{ config, pkgs, ... }:
 
 {
-  imports = [
-    ./custom.nix
-    ./hardware-configuration.nix
-  ];
+  imports =
+    [ # Include the results of the hardware scan.
+      ./hardware-configuration.nix
+    ];
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
@@ -52,9 +55,6 @@
     variant = "";
   };
 
-  # Fingerprint service
-  services.fprintd.enable = true;
-
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
@@ -77,11 +77,21 @@
   users.users."koalia" = {
     isNormalUser = true;
     description = "koalia";
-    extraGroups = [
-      "networkmanager"
-      "wheel"
+    extraGroups = [ "networkmanager" "wheel" "nixbld" ];
+    packages = with pkgs; [
+    #  thunderbird
     ];
   };
+
+  # Install firefox.
+  programs.firefox.enable = true;
+
+  # List packages installed in system profile.
+  # You can use https://search.nixos.org/ to find more packages (and options).
+  # environment.systemPackages = with pkgs; [
+  #   vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+  #   wget
+  # ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

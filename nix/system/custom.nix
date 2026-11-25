@@ -17,6 +17,9 @@
     flake = "/home/koalia/dotfiles/nix"; # sets NH_FLAKE var
   };
 
+  # Fingerprint reader
+  services.fprintd.enable = true;
+
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
     "1password" "vivaldi"
   ];
