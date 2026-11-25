@@ -41,11 +41,20 @@
     # media
     spotify
     vlc
-
-    # misc GUI
-    firefox
-    vivaldi
   ];
+
+  programs.vivaldi = {
+    enable = true;
+    commandLineArgs = [
+      "--disable-features=AutofillSavePaymentMethods"
+    ];
+    extensions = [
+      { id = "aeblfdkhhhdcdjpifhhbdiojplfjncoa"; } # 1password
+      { id = "eimadpbcbfnmbkopoojfekhnkhdbieeh"; } # dark reader
+      { id = "ddkjiahejlhfcafbddmgiahcphecmpfh"; } # ublock origin lite
+      { id = "ldgfbffkinooeloadekpmfoklnobpien"; } # raindrop.io bookmarks
+    ];
+  };
 
   # https://nix-community.github.io/home-manager/options/home-manager/programs/gnome-shell.html
   # equiv: dconf.settings."org/gnome/shell"
