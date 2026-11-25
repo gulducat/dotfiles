@@ -1,11 +1,11 @@
-{ pkgs, homeDir, ... }:
+{ config, pkgs, ... }:
 let
   srt = pkgs.callPackage ./pkgs/srt.nix { };
   hc-install = pkgs.callPackage ./pkgs/hc-install.nix { };
 in
 {
   home.sessionPath = [
-    "${homeDir}/go/bin"
+    "${config.home.homeDirectory}/go/bin"
   ];
 
   home.shellAliases = {

@@ -1,4 +1,4 @@
-{ pkgs, homeDir, ... }:
+{ config, pkgs, ... }:
 {
   home.shellAliases = {
     # code review: https://github.com/oxidecomputer/skepsis
@@ -40,7 +40,7 @@
   programs.go = {
     enable = true;
     env = {
-      GOPATH = [ "${homeDir}/go" ];
+      GOPATH = [ "${config.home.homeDirectory}/go" ];
       GOPRIVATE = [
         "github.com/hashicorp"
       ];

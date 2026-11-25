@@ -1,4 +1,4 @@
-{ pkgs, username, homeDir, flakeDir, ... }:
+{ pkgs, username, ... }:
 {
   imports = [
     ./shell.nix
@@ -11,7 +11,7 @@
   ];
 
   home.username = username;
-  home.homeDirectory = homeDir;
+  home.homeDirectory = "/home/${username}";
 
   # stateVersion pins the format/behavior of home-manager's *own* internal
   # state (not your packages) to whatever was current when you started using
@@ -30,7 +30,7 @@
     enable = true;
     clean.enable = true;
     clean.extraArgs = "--keep-since 4d --keep 3";
-    flake = "${flakeDir}"; # sets NH_FLAKE var
+    flake = "/home/${username}/dotfiles/nix"; # sets NH_FLAKE var
   };
 
   fonts.fontconfig.enable = true;

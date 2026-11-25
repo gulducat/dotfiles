@@ -1,9 +1,10 @@
 # I do this so I can update config files in place where the app expects,
 # see the results immediately, then git add/commit changes in this repo.
-{ config, lib, flakeDir, ... }:
+{ config, lib, ... }:
 let
   # symlink a path in this repo to a destination.
-  mkLink = repoPath: config.lib.file.mkOutOfStoreSymlink "${flakeDir}/${repoPath}";
+  mkLink = repoPath: config.lib.file.mkOutOfStoreSymlink
+    "${config.home.homeDirectory}/dotfiles/nix/${repoPath}";
 in
 {
   # ~
